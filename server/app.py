@@ -10,13 +10,56 @@ from models import User
 # Views go here!
 
 class Signup(Resource):
-    pass
+    
+    def post(self):
+
+        request_json = request.get_json()
+
+        email = request_json.get('email')
+        username = request_json.get('username')
+        password = request_json.get('password')
+
+        user = User(
+            username=username,
+            email=email
+        )
+
+        user.password = password
+
+        try:
+
+            db.session.add(user)
+            db.session.commit()
+
+            session['user_id'] = user.id
+
+            return user.to_dict(), 201
+
+        except IntegrityError:
+
+            return {'error': '422 Unprocessable Entity'}, 422
 
 class CheckSession(Resource):
     pass
 
 class Login(Resource):
-    pass
+    
+    def post(self):
+
+        request_json = request.get_json()
+
+        username = request_json.get('username')
+        password = request_json.get('password')
+
+        user = User.query.filter(User.username == username).first()
+
+        if user:
+            if user.authenticate(password):
+
+                session['user_id'] = user.id
+                return user.to_dict(), 200
+
+        return {'error': '401 Unauthorized'}, 401
 
 class Logout(Resource):
     pass

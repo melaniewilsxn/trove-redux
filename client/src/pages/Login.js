@@ -1,10 +1,15 @@
 import React from 'react'
+import { useState } from "react";
+import LoginForm from '../components/LoginForm';
+import SignUpForm from '../components/SignUpForm';
+import { Button, Container, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 
 function Login(){
+    const [showLogin, setShowLogin] = useState(true);
     return (
-        <div>
-            <h1>Login</h1>
-        </div>
+        <Container>
+            {showLogin ? <LoginForm setShowLogin={setShowLogin}/> : <SignUpForm setShowLogin={setShowLogin}/>}
+        </Container>
     )
 }
 

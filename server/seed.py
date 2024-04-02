@@ -30,6 +30,8 @@ if __name__ == '__main__':
 
             user = User(
                 username=username,
+                first_name = fake.first_name(),
+                last_name = fake.last_name(),
                 email=fake.email(),
                 image_url=fake.url(),
             )

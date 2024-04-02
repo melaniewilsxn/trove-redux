@@ -15,13 +15,17 @@ class Signup(Resource):
 
         request_json = request.get_json()
 
+        first_name = request_json.get('firstName')
+        last_name = request_json.get('lastName')
         email = request_json.get('email')
         username = request_json.get('username')
         password = request_json.get('password')
 
         user = User(
             username=username,
-            email=email
+            email=email,
+            first_name=first_name,
+            last_name=last_name
         )
 
         user.password = password

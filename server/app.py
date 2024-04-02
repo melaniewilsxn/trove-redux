@@ -69,7 +69,9 @@ class Login(Resource):
         return {'error': '401 Unauthorized'}, 401
 
 class Logout(Resource):
-    pass
+    def delete(self):
+        session['user_id'] = None
+        return {}, 204
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')

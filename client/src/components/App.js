@@ -22,11 +22,23 @@ function App() {
     });
   }, []);
 
+  const handleLogout = () => {
+    fetch("/logout", {
+      method: "DELETE",
+    })
+    .then((response) => {
+      if (response.ok) {
+        setUser(null); // Successfully logged out, clear user state
+      }
+    })
+    .catch((error) => console.error("Logout failed:", error));
+  };
+
   if (!user) return <Login onLogin={setUser} />;
 
   return (
     <div className="App">
-      <Header />
+      <Header user={user} onLogout={handleLogout}/>
       <NavBar />
       <Switch>
         <Route exact path="/">

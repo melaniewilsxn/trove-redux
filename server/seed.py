@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User
+from models import db, User, Genre
 
 if __name__ == '__main__':
     fake = Faker()
@@ -41,4 +41,23 @@ if __name__ == '__main__':
             users.append(user)
 
         db.session.add_all(users)
+        db.session.commit()
+
+        genres_list = [
+            "Literary Fiction", "Mystery", "Thriller", "Horror", "Historical Fiction",
+            "Romance", "Science Fiction", "Fantasy", "Dystopian", "Adventure",
+            "Young Adult (YA)", "Children's", "Biography/Autobiography", "Memoir",
+            "Self-help", "Motivational", "Health & Wellness", "History", "True Crime",
+            "Science", "Philosophy", "Travel", "Cookbooks/Food", "Art & Photography",
+            "Personal Development", "Business & Finance", "Education", "Graphic Novels & Comics",
+            "Poetry", "Essays", "Anthologies", "Religious/Spiritual", "LGBTQ+",
+            "Cultural", "Political", "Crafts, Hobbies & Home", "Parenting & Relationships",
+            "Climate Fiction (Cli-Fi)", "Urban Fantasy", "Cyberpunk", "Magical Realism",
+            "New Adult (NA)", "Steampunk", "Dark Fantasy", "Paranormal"
+        ]
+
+        for genre_name in genres_list:
+            genre = Genre(name=genre_name)
+            db.session.add(genre)
+
         db.session.commit()

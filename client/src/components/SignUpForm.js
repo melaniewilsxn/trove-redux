@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 
 function SignUpForm({ setShowLogin, onLogin }){
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -14,6 +16,8 @@ function SignUpForm({ setShowLogin, onLogin }){
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            firstName,
+            lastName,
             email,
             username,
             password,
@@ -36,6 +40,8 @@ function SignUpForm({ setShowLogin, onLogin }){
                 </Header>
                 <Form size='large' onSubmit={handleSubmit}>
                     <Segment stacked>
+                        <Form.Input fluid icon='chevron right' iconPosition='left' placeholder='First Name' onChange={(e) => setFirstName(e.target.value)}/>
+                        <Form.Input fluid icon='chevron right' iconPosition='left' placeholder='Lase Name' onChange={(e) => setLastName(e.target.value)}/>
                         <Form.Input fluid icon='mail' iconPosition='left' placeholder='Email' onChange={(e) => setEmail(e.target.value)}/>
                         <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' onChange={(e) => setUsername(e.target.value)}/>
                         <Form.Input

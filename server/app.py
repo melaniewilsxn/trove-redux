@@ -5,7 +5,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models import User
+from models import User, Genre
 
 # Views go here!
 
@@ -76,11 +76,17 @@ class Logout(Resource):
     def delete(self):
         session['user_id'] = None
         return {}, 204
+    
+class GenreIndex(Resource):
+    def get(self):
+        genres = [genre.to_dict() for genre in Genre.query.all()]
+        return genres, 200
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(GenreIndex, '/genres', endpoint='genres')
 
 
 if __name__ == '__main__':

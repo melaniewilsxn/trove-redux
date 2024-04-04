@@ -1,9 +1,12 @@
 import React from 'react'
+import GenreList from '../components/GenreList'
 
 function Discover(){
+
     return (
         <div>
-            <h1>Discover</h1>
+            <h1>Browse All</h1>
+            <GenreList />
         </div>
     )
 }

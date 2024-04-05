@@ -30,8 +30,27 @@ class User(db.Model, SerializerMixin):
         return f'User {self.username}, ID {self.id}'
 
 class Genre(db.Model, SerializerMixin):
+    __tablename__ = 'genres'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
 
     def __repr__(self):
         return f'<Genre {self.name}>'
+
+class Book(db.Model, SerializerMixin):
+    __tablename__ = 'books'
+
+    id = db.Column(db.Integer, primary_key=True)
+    isbn = db.Column(db.String, unique=True, nullable=False)
+    title = db.Column(db.String, nullable=False)
+    author = db.Column(db.String, nullable=False)
+    publication_year = db.Column(db.Integer, nullable=False)
+    summary = db.Column(db.Text, nullable=True)
+    cover_image_url = db.Column(db.String, nullable=True)  # Stores the URL to a cover image
+
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'), nullable=True)
+    genre = db.relationship('Genre', backref='books')
+
+    def __repr__(self):
+        return f'<Book {self.title}, Author: {self.author}>'

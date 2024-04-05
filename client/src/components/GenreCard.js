@@ -22,7 +22,6 @@ function GenreCard({ genre }){
         width: '175px', // Set a fixed width for square shape
         height: '175px', // Set a fixed height for square shape
         display: 'flex', // Use flexbox for centering content
-        justifyContent: 'center', // Center content horizontally
         alignItems: 'center', // Center content vertically
         color: 'black', // Set text color (adjust as needed for readability)
     };
@@ -30,7 +29,7 @@ function GenreCard({ genre }){
     return(
         <Card style={cardStyle}>
             <Card.Content>
-                <Card.Header style={{ color: 'black' }}>{genre.name}</Card.Header>
+                <Card.Header style={{ color: 'black', textAlign: 'left' }}>{genre.name}</Card.Header>
             </Card.Content>
         </Card>
     )

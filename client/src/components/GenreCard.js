@@ -3,15 +3,16 @@ import { Card } from 'semantic-ui-react'
 
 function GenreCard({ genre }){
     const colors = [
-        '#C94C4C', // red
-        '#D9A760', // orange
-        '#D9D760', // yellow
-        '#5E793C', // earthy green
-        '#8FB586', // olive green
-        '#CBF0F8', // light blue
+        '#fa1b23', // red
+        '#f53f02', // orange
+        '#001252', // deep blue
+        '#0053fa', // bright blue
+        '#01452c', // deep teal
+        '#8041bf', // light purple
         '#6C8EBF', // dusty blue
-        '#4B5D7E', // soft indigo
-        '#9E7BB5', // muted violet
+        '#e802ba', // bright pink
+        '#4c0d8c', // dark violet
+        '#058205', // bright green
     ];
 
     const color = colors[Math.floor(Math.random() * colors.length)];
@@ -29,7 +30,7 @@ function GenreCard({ genre }){
     return(
         <Card style={cardStyle}>
             <Card.Content>
-                <Card.Header style={{ color: 'black', textAlign: 'left' }}>{genre.name}</Card.Header>
+                <Card.Header style={{ color: 'white', textAlign: 'center' }}>{genre.name}</Card.Header>
             </Card.Content>
         </Card>
     )

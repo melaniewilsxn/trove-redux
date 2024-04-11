@@ -8,7 +8,7 @@ function NavBar(){
         <Menu fluid vertical tabular>
             <Menu.Item as={NavLink} exact to="/" name="home"><Icon name="home" />Home</Menu.Item>
             <Menu.Item as={NavLink} exact to="/discover" name="discover"><Icon name="search" />Discover</Menu.Item>
-            <Menu.Item as={NavLink} exact to="/library" name="library"><Icon name="book" />My Library</Menu.Item>
+            <Menu.Item as={NavLink} exact to="/library" name="library"><Icon name="book" />Your Library</Menu.Item>
         </Menu>
     )
 }

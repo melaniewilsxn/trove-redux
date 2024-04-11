@@ -31,6 +31,7 @@ class User(db.Model, SerializerMixin):
 
 class Genre(db.Model, SerializerMixin):
     __tablename__ = 'genres'
+    serialize_rules = ('-books',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
@@ -40,6 +41,7 @@ class Genre(db.Model, SerializerMixin):
 
 class Book(db.Model, SerializerMixin):
     __tablename__ = 'books'
+    serialize_rules = ('-genre.books',)
 
     id = db.Column(db.Integer, primary_key=True)
     isbn = db.Column(db.String, unique=True, nullable=False)

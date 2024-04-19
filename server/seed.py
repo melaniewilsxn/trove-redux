@@ -7,7 +7,6 @@ from random import randint, choice as rc
 from faker import Faker
 
 # Local imports
-import requests
 from app import app
 from models import db, User, Genre, Book
 
@@ -46,6 +45,8 @@ if __name__ == '__main__':
         print("Starting seed...")
         
         User.query.delete()
+        Genre.query.delete()
+        Book.query.delete()
 
         # make sure users have unique usernames
         users = []

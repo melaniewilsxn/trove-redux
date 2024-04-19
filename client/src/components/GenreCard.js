@@ -3,16 +3,17 @@ import { Card } from 'semantic-ui-react'
 
 function GenreCard({ genre }){
     const colors = [
-        '#fa1b23', // red
-        '#f53f02', // orange
-        '#001252', // deep blue
-        '#0053fa', // bright blue
-        '#01452c', // deep teal
-        '#8041bf', // light purple
-        '#6C8EBF', // dusty blue
-        '#e802ba', // bright pink
-        '#4c0d8c', // dark violet
-        '#058205', // bright green
+        '#55A891',
+        '#27856A',
+        '#5F8109',
+        '#F037A5',
+        '#AF2896',
+        '#477D95',
+        '#509BF5',
+        '#1D3164',
+        '#E8115B',
+        '#E13300',
+        '#BA5D07',
     ];
 
     const color = colors[Math.floor(Math.random() * colors.length)];

@@ -1,6 +1,10 @@
 :root {
-  --bg: #282c34;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  /* --bg: #282c34;
   --header: #fff;
   --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+  --text: hsla(0, 0%, 100%, 0.88); */
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GridColumn, Grid, Segment, Image, Button, SegmentGroup } from 'semantic-ui-react'
+import { GridColumn, GridRow, Grid, Segment, Image, Button, SegmentGroup, Container } from 'semantic-ui-react'
 import { Route, Switch } from 'react-router-dom'
 import NavBar from "./NavBar";
 import Login from "../pages/Login";
@@ -35,33 +35,22 @@ function App() {
   if (!user) return <Login onLogin={setUser} />;
 
   return (
-    <Segment>
-      <Grid>
-        <GridColumn width={4}>
-          <Image src="trove.png" size="small" />
-          <NavBar />
+    <div style={{ padding: '10px', backgroundColor: "black", height: '100%'}}>
+      <Grid >
+        <GridColumn width={4} >
+          <Segment inverted style={{ height: '100%' }}>
+            <Image src="trove.png" size="small" />
+            <NavBar />
+          </Segment>
         </GridColumn>
-        <GridColumn stretched width={12}>
-          <SegmentGroup>
-            <Segment textAlign="right">
-              {/* <Grid>
-                <Grid.Row columns="equal" verticalAlign="middle">
-                  <GridColumn>
-                    <Image src={user.image_url} avatar />
-                  </GridColumn>
-                  <GridColumn>
-                    <span>{user.first_name}</span>
-                  </GridColumn>
-                  <GridColumn>
-                    <Button onClick={handleLogout} style={{ backgroundColor: '#5E793C', color: 'white' }}>Logout</Button>
-                  </GridColumn>
-                </Grid.Row>
-              </Grid> */}
-              <Image src={user.image_url} avatar style={{ paddingRight: '10px' }}/>
-              <span style={{ paddingRight: '10px' }}>{user.first_name}</span>
-              <Button onClick={handleLogout} style={{ color: '#5E793C' }}>Logout</Button>
+        <GridColumn stretched width={12} >
+          <SegmentGroup style={{ height: '100%' }}>
+            <Segment textAlign="right" inverted>
+              <Image src="profile.png" avatar />
+              <span style={{ padding: '8px' }}>{user.first_name}</span>
+              <Button onClick={handleLogout} >Logout</Button>
             </Segment>
-            <Segment>
+            <Segment inverted >
               <Switch>
                 <Route exact path="/">
                   <Home />
@@ -77,7 +66,7 @@ function App() {
           </SegmentGroup>
         </GridColumn>
       </Grid>
-    </Segment>
+    </div>
   );
 }
 

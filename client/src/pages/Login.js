@@ -7,9 +7,9 @@ import { Container } from 'semantic-ui-react'
 function Login({ onLogin }){
     const [showLogin, setShowLogin] = useState(true);
     return (
-        <Container>
+        <div style={{ backgroundColor: "black", height: '100%'}}>
             {showLogin ? <LoginForm setShowLogin={setShowLogin} onLogin={onLogin}/> : <SignUpForm setShowLogin={setShowLogin} onLogin={onLogin}/>}
-        </Container>
+        </div>
     )
 }
 

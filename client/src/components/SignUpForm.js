@@ -34,12 +34,14 @@ function SignUpForm({ setShowLogin, onLogin }){
     return (
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
-                <Image src='trove.png' size="massive"/>
-                <Header as="h2" style={{ color: '#5E793C' }} textAlign='center'> 
-                    Sign Up
-                </Header>
+                <Segment inverted>
+                  <Image src='trove.png' size="massive"/>
+                  <Header as="h2" textAlign='center'> 
+                      Sign Up
+                  </Header>
+                </Segment>
                 <Form size='large' onSubmit={handleSubmit}>
-                    <Segment stacked>
+                    <Segment stacked inverted>
                         <Form.Input fluid icon='chevron right' iconPosition='left' placeholder='First Name' onChange={(e) => setFirstName(e.target.value)}/>
                         <Form.Input fluid icon='chevron right' iconPosition='left' placeholder='Lase Name' onChange={(e) => setLastName(e.target.value)}/>
                         <Form.Input fluid icon='mail' iconPosition='left' placeholder='Email' onChange={(e) => setEmail(e.target.value)}/>
@@ -52,14 +54,14 @@ function SignUpForm({ setShowLogin, onLogin }){
                             type='password'
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <Button style={{ color: '#5E793C' }} fluid size='large' type="submit">
+                        <Button fluid size='large' type="submit">
                             Create Account
                         </Button>
                     </Segment>
                 </Form>
-                <Message>
+                <Segment inverted>
                     Already have an account? <a href='#' onClick={() => setShowLogin(true)}>Login</a>
-                </Message>
+                </Segment>
             </Grid.Column>
         </Grid>
     )

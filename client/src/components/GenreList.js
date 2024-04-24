@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import GenreCard from './GenreCard';
-import { CardGroup, Container, Divider, Segment, Button } from 'semantic-ui-react'
+import { CardGroup } from 'semantic-ui-react'
 
 function GenreList(){
     const [genreList, setGenreList] = useState([]);
@@ -11,13 +11,9 @@ function GenreList(){
         .then(genres => setGenreList(genres));
     }, []);
 
-    const displayeGenres = genreList.map((genre) => {
-        return <GenreCard genre={genre} key={genre.id}/>
-    })
-
     return (
         <CardGroup itemsPerRow={4}>
-            {displayeGenres}
+            {genreList.map((genre) => <GenreCard genre={genre} key={genre.id}/>)}
         </CardGroup>
     )
 }

@@ -82,11 +82,20 @@ class GenreIndex(Resource):
         genres = [genre.to_dict() for genre in Genre.query.all()]
         return genres, 200
 
+class BooksByGenre(Resource):
+    def get(self, name):
+        genre = Genre.query.filter_by(name=name).first()
+        if genre:
+            books = [book.to_dict() for book in Book.query.filter_by(genre_id = genre.id).all()]
+            return books, 200
+        return {'error': 'Genre not found'}, 404
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(GenreIndex, '/genres', endpoint='genres')
+api.add_resource(BooksByGenre, '/genres/<string:name>', endpoint="books_by_genre")
 
 
 if __name__ == '__main__':

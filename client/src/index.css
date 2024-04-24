@@ -1,10 +1,14 @@
-:root {
+/* :root {
   height: 100%;
   margin: 0;
   padding: 0;
   background-color: black;
-  /* --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88); */
+} */
+
+html, body {
+  height: 100%; /* Makes sure the html and body elements take up the whole viewport height */
+  margin: 0;    /* Removes default margin */
+  padding: 0;   /* Removes default padding */
+  background-color: black !important; /* Sets the background color to black */
+  overflow-x: hidden; /* Prevents horizontal scrollbar due to padding or margin issues */
 }

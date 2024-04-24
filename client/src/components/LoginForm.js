@@ -25,12 +25,14 @@ function LoginForm({ setShowLogin, onLogin }){
     return (
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
-                <Image src='trove.png' size="massive"/>
-                <Header as="h2" style={{ color: '#5E793C' }} textAlign='center'> 
-                    Log-in to your account
-                </Header>
-                <Form size='large' onSubmit={handleSubmit}>
-                    <Segment stacked>
+                <Segment inverted>
+                  <Image src='trove.png' size="massive"/>
+                  <Header as="h2" textAlign='center'> 
+                      Log-in to your account
+                  </Header>
+                </Segment>
+                <Form size='large' onSubmit={handleSubmit} >
+                    <Segment stacked inverted>
                         <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' onChange={(e) => setUsername(e.target.value)}/>
                         <Form.Input
                             fluid
@@ -41,14 +43,14 @@ function LoginForm({ setShowLogin, onLogin }){
                             onChange={(e) => setPassword(e.target.value)}
                         />
 
-                        <Button style={{ color: '#5E793C' }} fluid size='large' type="submit">
+                        <Button fluid size='large' type="submit">
                             Login
                         </Button>
                     </Segment>
                 </Form>
-                <Message>
+                <Segment inverted>
                     New to us? <a href='#' onClick={() => setShowLogin(false)}>Sign Up</a>
-                </Message>
+                </Segment>
             </Grid.Column>
         </Grid>
     )

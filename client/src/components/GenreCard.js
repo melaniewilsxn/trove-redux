@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from 'semantic-ui-react'
+import GenreBookList from "./GenreBookList";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function GenreCard({ genre }){
+    const history = useHistory()
+
     const colors = [
         '#55A891',
         '#27856A',
@@ -28,8 +32,12 @@ function GenreCard({ genre }){
         color: 'black', // Set text color (adjust as needed for readability)
     };
 
+    function handleClick() {
+        history.push(`/discover/${encodeURIComponent(genre.name)}`)
+    }
+
     return(
-        <Card style={cardStyle}>
+        <Card style={cardStyle} onClick={handleClick}>
             <Card.Content>
                 <Card.Header style={{ color: 'white', textAlign: 'center' }}>{genre.name}</Card.Header>
             </Card.Content>

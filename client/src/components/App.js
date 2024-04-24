@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Discover from "../pages/Discover";
 import Home from "../pages/Home";
 import Library from "../pages/Library";
+import DiscoverGenre from "../pages/DiscoverGenre";
 
 function App() {
 
@@ -35,7 +36,7 @@ function App() {
   if (!user) return <Login onLogin={setUser} />;
 
   return (
-    <div style={{ padding: '10px', backgroundColor: "black", height: '100%'}}>
+    <div style={{ padding: '10px'}}>
       <Grid >
         <GridColumn width={4} >
           <Segment inverted style={{ height: '100%' }}>
@@ -52,15 +53,10 @@ function App() {
             </Segment>
             <Segment inverted >
               <Switch>
-                <Route exact path="/">
-                  <Home />
-                </Route>
-                <Route exact path="/discover">
-                  <Discover />
-                    </Route>
-                <Route exact path="/library">
-                    <Library />
-                </Route>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/discover" component={Discover} />
+                <Route exact path="/library" component={Library} />
+                <Route exact path="/discover/:genreName" component={DiscoverGenre} />
               </Switch>
             </Segment>
           </SegmentGroup>

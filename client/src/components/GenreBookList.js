@@ -11,7 +11,7 @@ function GenreBookList({ genreName }){
         .then(books => setBookList(books))
     }, [])
 
-    bookList.map((book) => console.log(book))
+    // bookList.map((book) => console.log(book))
 
     return (
         <CardGroup>

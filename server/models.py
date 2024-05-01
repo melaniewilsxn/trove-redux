@@ -2,7 +2,8 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
-import re, datetime
+import re
+from datetime import datetime
 
 from config import db, bcrypt
 
@@ -15,6 +16,8 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     _password_hash = db.Column(db.String)
+
+    libraries = db.relationship('Library', back_populates='user')
 
     @hybrid_property
     def password(self):
@@ -65,6 +68,11 @@ class Genre(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Genre {self.name}>'
 
+library_book = db.Table('library_book',
+    db.Column('library_id', db.Integer, db.ForeignKey('libraries.id'), primary_key=True),
+    db.Column('book_id', db.Integer, db.ForeignKey('books.id'), primary_key=True)
+)
+
 class Book(db.Model, SerializerMixin):
     __tablename__ = 'books'
     serialize_rules = ('-genre.books',)
@@ -78,6 +86,8 @@ class Book(db.Model, SerializerMixin):
 
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'), nullable=True)
     genre = db.relationship('Genre', backref='books')
+
+    libraries = db.relationship('Library', secondary=library_book, back_populates='books')
 
     @validates('publication_year')
     def validate_publication_year(self, key, year):
@@ -96,3 +106,13 @@ class Book(db.Model, SerializerMixin):
     
     def __repr__(self):
         return f'<Book {self.title}, Author: {self.author}>'
+
+class Library(db.Model):
+    __tablename__ = 'libraries'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Links library to its creator/owner
+
+    user = db.relationship('User', back_populates='libraries')
+    books = db.relationship('Book', secondary=library_book, back_populates='libraries')

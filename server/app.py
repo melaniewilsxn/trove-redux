@@ -70,7 +70,7 @@ class Login(Resource):
                 session['user_id'] = user.id
                 return user.to_dict(), 200
 
-        return {'error': '401 Unauthorized'}, 401
+        return {'error': 'You have entered an invalid username or password.'}, 401
 
 class Logout(Resource):
     def delete(self):
@@ -90,12 +90,20 @@ class BooksByGenre(Resource):
             return books, 200
         return {'error': 'Genre not found'}, 404
 
+class BookByID(Resource):
+    def get(self, id):
+        book = Book.query.filter_by(id=id).first()
+        if book:
+            return book.to_dict(), 200
+        return {'error': 'Book not found'}, 404
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(GenreIndex, '/genres', endpoint='genres')
 api.add_resource(BooksByGenre, '/genres/<string:name>', endpoint="books_by_genre")
+api.add_resource(BookByID, '/books/<int:id>', endpoint='book_by_id')
 
 
 if __name__ == '__main__':

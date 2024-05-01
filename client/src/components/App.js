@@ -7,6 +7,7 @@ import Discover from "../pages/Discover";
 import Home from "../pages/Home";
 import Library from "../pages/Library";
 import DiscoverGenre from "../pages/DiscoverGenre";
+import Book from "../pages/Book";
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
                 <Route exact path="/discover" component={Discover} />
                 <Route exact path="/library" component={Library} />
                 <Route exact path="/discover/:genreName" component={DiscoverGenre} />
+                <Route exact path="/books/:bookID" component={Book} />
               </Switch>
             </Segment>
           </SegmentGroup>

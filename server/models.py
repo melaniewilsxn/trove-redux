@@ -110,7 +110,7 @@ class Book(db.Model, SerializerMixin):
 
 class Library(db.Model, SerializerMixin):
     __tablename__ = 'libraries'
-    serialize_rules = ('-user.libraries',)
+    serialize_rules = ('-user.libraries', '-books.libraries',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)

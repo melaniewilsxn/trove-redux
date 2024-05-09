@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
-import BookCard from '../components/BookCard';
+import BookInfo from '../components/BookInfo';
 
 function Book(){
-    const { bookID } = useParams();
+    const { bookID } = useParams()
 
     return (
         <div>
-            <BookCard id={bookID}/>
+            <BookInfo id={parseInt(bookID)}/>
         </div>
     )
 }

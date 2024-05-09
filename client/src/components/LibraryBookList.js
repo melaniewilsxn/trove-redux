@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { CardGroup } from "semantic-ui-react";
 import BookCard from "./BookCard";
 
-function GenreBookList({ genreName }){
+function LibraryBookList({ libraryID }){
     const [bookList, setBookList] = useState([])
 
     useEffect(() => {
-        fetch(`/genres/${genreName}`)
+        fetch(`/library/${libraryID}`)
         .then(r => r.json())
         .then(books => setBookList(books))
     }, [])
@@ -18,4 +18,4 @@ function GenreBookList({ genreName }){
     )
 }
 
-export default GenreBookList
+export default LibraryBookList

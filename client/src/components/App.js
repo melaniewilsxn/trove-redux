@@ -5,9 +5,10 @@ import NavBar from "./NavBar";
 import Login from "../pages/Login";
 import Discover from "../pages/Discover";
 import Home from "../pages/Home";
-import Library from "../pages/Library";
+import Libraries from "../pages/Libraries";
 import DiscoverGenre from "../pages/DiscoverGenre";
 import Book from "../pages/Book";
+import Library from "../pages/Library";
 
 function App() {
 
@@ -56,9 +57,10 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/discover" component={Discover} />
-                <Route exact path="/library" component={Library} />
+                <Route exact path="/library" component={Libraries} />
                 <Route exact path="/discover/:genreName" component={DiscoverGenre} />
                 <Route exact path="/books/:bookID" component={Book} />
+                <Route exact path="/library/:libraryID" component={Library} />
               </Switch>
             </Segment>
           </SegmentGroup>

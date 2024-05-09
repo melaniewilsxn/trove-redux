@@ -1,36 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Segment, Image, HeaderSubheader, Header } from "semantic-ui-react";
+import { Card, Image } from "semantic-ui-react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function BookCard({ id }){
-    const [book, setBook] = useState()
+function BookCard({book}){
+    const history = useHistory()
 
-    useEffect(() => {
-        fetch(`/books/${id}`)
-        .then(r => r.json())
-        .then(book => setBook(book))
-    }, [])
+    function handleCLick() {
+        history.push(`/books/${encodeURIComponent(book.id)}`)
+    }
 
     return (
-        <Segment>
-            {book ? 
-            <div class="ui two column very relaxed grid">
-                <div class="column">
-                    <Image src={book.cover_image_url}/>
-                </div>
-                <div class="column">
-                    <h1 class="ui header">
-                        <div class="content">
-                            {book.title}
-                            <div class="sub header">{book.author}</div>
-                        </div>
-                    </h1>
-                    <p>{book.summary}</p>
-                </div>
-                <div class="ui vertical divider"></div>
-            </div>
-            : null}
-        </Segment>
+        <Card onClick={handleCLick}>
+            <Card.Content>
+                <Image src={book.cover_image_url} style={{ padding: '5px'}}/>
+                <Card.Header>{book.title}</Card.Header>
+                <Card.Meta>{book.author}</Card.Meta>
+            </Card.Content>
+        </Card>
     )
 }
 

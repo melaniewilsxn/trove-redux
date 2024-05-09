@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Card } from 'semantic-ui-react'
-import GenreBookList from "./GenreBookList";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function LibraryCard({ library }){
-    // const history = useHistory()
+    const history = useHistory()
 
     // Define styles for the card
     const cardStyle = {
@@ -17,8 +16,7 @@ function LibraryCard({ library }){
     };
 
     function handleClick() {
-        console.log("clicked")
-        // history.push(`/discover/${encodeURIComponent(genre.name)}`)
+        history.push(`/library/${encodeURIComponent(library.id)}`)
     }
 
     return(

@@ -5,7 +5,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models import User, Genre, Book, Library
+from models import User, Genre, Book, Library, library_book
 
 # Views go here!
 # @app.before_request
@@ -56,7 +56,6 @@ class CheckSession(Resource):
         user_id = session.get('user_id')
         if user_id:
             user = User.query.filter(User.id == user_id).first()
-            print("Logged in as user_id:", session['user_id'])
             return user.to_dict(), 200
         
         return {}, 401
@@ -76,7 +75,6 @@ class Login(Resource):
             if user.authenticate(password):
 
                 session['user_id'] = user.id
-                print("Session user_id set to:", session['user_id'])
                 return user.to_dict(), 200
 
         return {'error': 'You have entered an invalid username or password.'}, 401
@@ -156,6 +154,35 @@ class LibraryIndex(Resource):
 
         return {}, 204
 
+class AddBookToLibrary(Resource):
+
+    def post(self):
+        try:
+            request_json = request.get_json()
+
+            library_id = request_json.get('library_id')
+            book_id = request_json.get('book_id')
+
+            library = Library.query.filter_by(id=library_id).first()
+            book = Book.query.filter_by(id=book_id).first()
+
+            library.books.append(book)
+            db.session.commit()
+
+        except Exception as e:
+            db.session.rollback()
+            return {'error': 'Internal server error'}, 500
+
+class BooksByLibraryID(Resource):
+
+    def get(self, id):
+        library = Library.query.filter_by(id=id).first()
+        if library:
+            books = [book.to_dict() for book in library.books]
+            return books, 200
+        return {'error': 'Library not found'}, 404
+
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
@@ -164,6 +191,8 @@ api.add_resource(GenreIndex, '/genres', endpoint='genres')
 api.add_resource(BooksByGenre, '/genres/<string:name>', endpoint="books_by_genre")
 api.add_resource(BookByID, '/books/<int:id>', endpoint='book_by_id')
 api.add_resource(LibraryIndex, '/libraries', endpoint='libraries')
+api.add_resource(AddBookToLibrary, '/add_book_to_library', endpoint='add_book_to_library')
+api.add_resource(BooksByLibraryID, '/library/<int:id>', endpoint='books_by_library_id')
 
 
 if __name__ == '__main__':

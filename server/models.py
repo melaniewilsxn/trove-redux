@@ -9,6 +9,7 @@ from config import db, bcrypt
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
+    serialize_rules = ('-libraries.user',)
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
@@ -107,8 +108,9 @@ class Book(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Book {self.title}, Author: {self.author}>'
 
-class Library(db.Model):
+class Library(db.Model, SerializerMixin):
     __tablename__ = 'libraries'
+    serialize_rules = ('-user.libraries',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)

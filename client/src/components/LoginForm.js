@@ -4,7 +4,7 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 function LoginForm({ setShowLogin, onLogin }){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState([]);
+    const [error, setError] = useState();
     
     function handleSubmit(e) {
         e.preventDefault();
@@ -18,7 +18,7 @@ function LoginForm({ setShowLogin, onLogin }){
           if (r.ok) {
             r.json().then((user) => onLogin(user));
           } else {
-            r.json().then((err) => setErrors(err.error));
+            r.json().then((err) => setError(err.error));
           }
         });
       }
@@ -47,8 +47,8 @@ function LoginForm({ setShowLogin, onLogin }){
                         <Button fluid size='large' type="submit">
                             Login
                         </Button>
-                        {errors ? 
-                          <div style={{ color: '#cc0000', marginTop: '10px'}}>{errors}</div>
+                        {error ? 
+                          <div style={{ color: '#cc0000', marginTop: '10px'}}>{error}</div>
                         : null}
                     </Segment>
                 </Form>

@@ -132,27 +132,6 @@ class LibraryIndex(Resource):
         except Exception as e:
             db.session.rollback()
             return {'error': 'Internal server error'}, 500
-    
-    def patch(self, id):
-        data = request.get_json()
-
-        library = Library.query.filter_by(id=id).first()
-
-        for attr in data:
-            setattr(library, attr, data[attr])
-
-        db.session.add(library)
-        db.session.commit()
-
-        return library.to_dict(), 200
-        
-    def delete(self, id):
-        library = Library.query.filter_by(id=id).first()
-
-        db.session.delete(library)
-        db.session.commit()
-
-        return {}, 204
 
 class AddBookToLibrary(Resource):
 
@@ -173,14 +152,37 @@ class AddBookToLibrary(Resource):
             db.session.rollback()
             return {'error': 'Internal server error'}, 500
 
-class BooksByLibraryID(Resource):
-
+class LibraryByID(Resource):
     def get(self, id):
         library = Library.query.filter_by(id=id).first()
         if library:
-            books = [book.to_dict() for book in library.books]
-            return books, 200
+            return library.to_dict(), 200
         return {'error': 'Library not found'}, 404
+    
+    def patch(self, id):
+        data = request.get_json()
+
+        library = Library.query.filter_by(id=id).first()
+
+        for attr in data:
+            setattr(library, attr, data[attr])
+
+        db.session.add(library)
+        db.session.commit()
+
+        return library.to_dict(), 200
+        
+    def delete(self, id):
+        library = Library.query.filter_by(id=id).first()
+
+        if library.books:
+            library.books.clear()
+            db.session.commit()
+
+        db.session.delete(library)
+        db.session.commit()
+
+        return {}, 204
 
 
 api.add_resource(Signup, '/signup', endpoint='signup')
@@ -192,7 +194,7 @@ api.add_resource(BooksByGenre, '/genres/<string:name>', endpoint="books_by_genre
 api.add_resource(BookByID, '/books/<int:id>', endpoint='book_by_id')
 api.add_resource(LibraryIndex, '/libraries', endpoint='libraries')
 api.add_resource(AddBookToLibrary, '/add_book_to_library', endpoint='add_book_to_library')
-api.add_resource(BooksByLibraryID, '/library/<int:id>', endpoint='books_by_library_id')
+api.add_resource(LibraryByID, '/library/<int:id>', endpoint='library_by_id')
 
 
 if __name__ == '__main__':

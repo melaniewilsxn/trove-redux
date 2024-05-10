@@ -3,7 +3,7 @@ import LibraryCard from './LibraryCard';
 import { CardGroup, Button, Modal, Form, Header, Segment, Divider } from 'semantic-ui-react'
 
 function LibraryList(){
-    const [libraryList, setLibraryList] = useState([]);
+    const [libraryList, setLibraryList] = useState([])
     const [open, setOpen] = useState(false)
     const [libraryName, setLibraryName] = useState("")
     const [error, setError] = useState([])

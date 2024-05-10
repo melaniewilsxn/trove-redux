@@ -42,14 +42,14 @@ function App() {
       <Grid >
         <GridColumn width={4} >
           <Segment inverted style={{ height: '100%' }}>
-            <Image src="trove.png" size="small" />
+            <Image src="http://localhost:3000/trove.png" size="small" />
             <NavBar />
           </Segment>
         </GridColumn>
         <GridColumn stretched width={12} >
           <SegmentGroup style={{ height: '100%' }}>
             <Segment textAlign="right" inverted>
-              <Image src="profile.png" avatar />
+              <Image src="http://localhost:3000/profile.png" avatar />
               <span style={{ padding: '8px' }}>{user.first_name}</span>
               <Button onClick={handleLogout} >Logout</Button>
             </Segment>

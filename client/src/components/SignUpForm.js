@@ -36,7 +36,7 @@ function SignUpForm({ setShowLogin, onLogin }){
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
                 <Segment inverted>
-                  <Image src='trove.png' size="massive"/>
+                  <Image src='http://localhost:3000/trove.png' size="massive"/>
                   <Header as="h2" textAlign='center'> 
                       Sign Up
                   </Header>

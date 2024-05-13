@@ -97,12 +97,80 @@ class BooksByGenre(Resource):
             return books, 200
         return {'error': 'Genre not found'}, 404
 
+class BookIndex(Resource):
+    def get(self):
+        books = [book.to_dict() for book in Book.query.all()]
+        return books, 200
+
+    def post(self):
+        try:
+            request_json = request.get_json()
+
+            title = request_json.get('title')
+            author = request_json.get('author')
+            publication_year = request_json.get('publicationYear')
+            genre_name = request_json.get('genre')
+            summary = request_json.get('summary')
+            cover_image_url = request_json.get('coverImageURL')
+
+            genre = Genre.query.filter_by(name=genre_name).first()
+
+            book = Book(
+                title=title,
+                author=author,
+                publication_year=publication_year,
+                summary=summary,
+                cover_image_url=cover_image_url,
+            )
+
+            book.genre_id = genre.id
+
+            db.session.add(book)
+            db.session.commit()
+
+            return book.to_dict(), 201
+        
+        except ValueError as e:
+            db.session.rollback()
+            return {'error': str(e)}, 400
+        except IntegrityError:
+            db.session.rollback()
+            return {'error': 'Book already exists.'}, 422
+        except Exception as e:
+            db.session.rollback()
+            return {'error': 'Internal server error'}, 500
+
 class BookByID(Resource):
     def get(self, id):
         book = Book.query.filter_by(id=id).first()
         if book:
             return book.to_dict(), 200
         return {'error': 'Book not found'}, 404
+    
+    def patch(self,id):
+        data = request.get_json()
+
+        book = Book.query.filter_by(id=id).first()
+
+        for attr in data:
+            setattr(book, attr, data[attr])
+
+        db.session.add(book)
+        db.session.commit()
+
+        return book.to_dict(), 200
+
+    def delete(self, id):
+        book = Book.query.filter_by(id=id).first()
+
+        if book.libraries:
+            book.libraries.clear()
+            db.session.commit()
+
+        db.session.delete(book)
+        db.session.commit()
+
+        return {}, 204
 
 class LibraryIndex(Resource):
     def get(self):
@@ -113,7 +181,7 @@ class LibraryIndex(Resource):
     def post(self):
         request_json = request.get_json()
 
-        name = request_json.get('name')
+        name = request_json.get('libraryName')
 
         try:
             library = Library(
@@ -190,6 +258,7 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(GenreIndex, '/genres', endpoint='genres')
 api.add_resource(BooksByGenre, '/genres/<string:name>', endpoint="books_by_genre")
+api.add_resource(BookIndex, '/books', endpoint='books')
 api.add_resource(BookByID, '/books/<int:id>', endpoint='book_by_id')
 api.add_resource(LibraryIndex, '/libraries', endpoint='libraries')
 api.add_resource(AddBookToLibrary, '/add_book_to_library', endpoint='add_book_to_library')

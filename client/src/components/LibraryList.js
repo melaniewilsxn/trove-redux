@@ -22,7 +22,7 @@ function LibraryList(){
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                name: libraryName,
+                libraryName,
             }),
         }).then((r) => {
             if (r.ok) {

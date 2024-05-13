@@ -3,7 +3,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 
 from config import db, bcrypt
 
@@ -18,7 +18,14 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String(255), unique=True, nullable=False)
     _password_hash = db.Column(db.String)
 
+    # Relationship mapping the user to related libraries
     libraries = db.relationship('Library', back_populates='user')
+
+    # Relationship mapping the user to related reviews
+    reviews = db.relationship('Review', back_populates='user', cascade='all, delete-orphan')
+
+    # Association proxy to get books for this user through reviews
+    books = association_proxy('reviews', 'book', creator=lambda book_obj: Review(book=book_obj))
 
     @hybrid_property
     def password(self):
@@ -66,6 +73,9 @@ class Genre(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
 
+    # Relationship mapping the genre to related books
+    books = db.relationship('Book', back_populates='genre')
+
     def __repr__(self):
         return f'<Genre {self.name}>'
 
@@ -86,9 +96,18 @@ class Book(db.Model, SerializerMixin):
     cover_image_url = db.Column(db.String, nullable=True)  # Stores the URL to a cover image
 
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'), nullable=True)
-    genre = db.relationship('Genre', backref='books')
 
+    # Relationship mapping the book to related genre
+    genre = db.relationship('Genre', back_populates='books')
+
+    # Relationship mapping the book to related libraries
     libraries = db.relationship('Library', secondary=library_book, back_populates='books')
+
+    # Relationship mapping the book to related reviews
+    reviews = db.relationship('Review', back_populates='book', cascade='all, delete-orphan')
+
+    # Association proxy to get books for this user through reviews
+    users = association_proxy('reviews', 'user', creator=lambda user_obj: Review(user=user_obj))
 
     @validates('publication_year')
     def validate_publication_year(self, key, year):
@@ -116,5 +135,25 @@ class Library(db.Model, SerializerMixin):
     name = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Links library to its creator/owner
 
+    # Relationship mapping the library to related user
     user = db.relationship('User', back_populates='libraries')
+
+    # Relationship mapping the library to related books
     books = db.relationship('Book', secondary=library_book, back_populates='libraries')
+
+class Review(db.Model, SerializerMixin):
+    __tablename__ = 'reviews'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Integer, nullable=False)
+    mood = db.Column(db.String, nullable=False)
+    pace = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(tz=timezone.utc), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+
+    # Relationship mapping the review to related user
+    user = db.relationship('User', back_populates='reviews')
+
+    # Relationship mapping the review to related book
+    book = db.relationship('Book', back_populates='reviews')

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Segment, GridColumn } from 'semantic-ui-react'
 
 function SignUpForm({ setShowLogin, onLogin }){
     const [firstName, setFirstName] = useState("");
@@ -34,7 +34,7 @@ function SignUpForm({ setShowLogin, onLogin }){
 
     return (
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-            <Grid.Column style={{ maxWidth: 450 }}>
+            <GridColumn style={{ maxWidth: 450 }}>
                 <Segment inverted>
                   <Image src='http://localhost:3000/trove.png' size="massive"/>
                   <Header as="h2" textAlign='center'> 
@@ -66,7 +66,7 @@ function SignUpForm({ setShowLogin, onLogin }){
                 <Segment inverted>
                     Already have an account? <a href='#' onClick={() => setShowLogin(true)}>Login</a>
                 </Segment>
-            </Grid.Column>
+            </GridColumn>
         </Grid>
     )
 }

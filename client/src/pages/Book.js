@@ -7,7 +7,7 @@ function Book(){
 
     return (
         <div>
-            <BookInfo id={parseInt(bookID)}/>
+            <BookInfo id={bookID}/>
         </div>
     )
 }

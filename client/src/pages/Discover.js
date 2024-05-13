@@ -5,7 +5,7 @@ function Discover(){
 
     return (
         <div>
-            <h1>Browse All</h1>
+            <h1>Browse Books</h1>
             <GenreList />
         </div>
     )

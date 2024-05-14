@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { CardGroup } from "semantic-ui-react";
+import { CardGroup, Modal, Button, Divider } from "semantic-ui-react";
 import BookCard from "./BookCard";
+import CreateBookForm from "./CreateBookForm";
 
-function BookList({  }){
+function BookList({}){
     const [bookList, setBookList] = useState([])
     const [open, setOpen] = useState(false)
 
@@ -13,9 +14,22 @@ function BookList({  }){
     }, [])
 
     return (
-        <CardGroup>
-            {bookList.map((book) => <BookCard book={book} key={book.id}/>)}
-        </CardGroup>
+        <div>
+            <Modal size="large"
+                onClose={() => setOpen(false)}
+                onOpen={() => {
+                    setOpen(true)
+                }}
+                open={open}
+                trigger={<Button>Add New Book</Button>}
+            >
+                <CreateBookForm bookList={bookList} setBookList={setBookList} setOpen={setOpen}/>
+            </Modal>
+            <Divider/>
+            <CardGroup>
+                {bookList.map((book) => <BookCard book={book} key={book.id}/>)}
+            </CardGroup>
+        </div>
     )
 }
 

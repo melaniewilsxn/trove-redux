@@ -1,8 +1,8 @@
-"""added review association table
+"""created review model
 
-Revision ID: 9689bdd3087f
+Revision ID: 9ee2ffd3136e
 Revises: 1d1ab46b4bff
-Create Date: 2024-05-13 18:04:29.360505
+Create Date: 2024-05-13 21:47:08.608335
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9689bdd3087f'
+revision = '9ee2ffd3136e'
 down_revision = '1d1ab46b4bff'
 branch_labels = None
 depends_on = None
@@ -23,6 +23,7 @@ def upgrade():
     sa.Column('rating', sa.Integer(), nullable=False),
     sa.Column('mood', sa.String(), nullable=False),
     sa.Column('pace', sa.String(), nullable=False),
+    sa.Column('comment', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('book_id', sa.Integer(), nullable=False),

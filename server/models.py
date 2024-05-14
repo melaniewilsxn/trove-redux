@@ -9,7 +9,7 @@ from config import db, bcrypt
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-    serialize_rules = ('-libraries.user',)
+    serialize_rules = ('-_password_hash', '-email', '-reviews', '-libraries')
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
@@ -86,7 +86,7 @@ library_book = db.Table('library_book',
 
 class Book(db.Model, SerializerMixin):
     __tablename__ = 'books'
-    serialize_rules = ('-genre.books',)
+    serialize_rules = ('-genre.books', '-reviews', '-libraries')
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
@@ -109,6 +109,9 @@ class Book(db.Model, SerializerMixin):
     # Association proxy to get books for this user through reviews
     users = association_proxy('reviews', 'user', creator=lambda user_obj: Review(user=user_obj))
 
+    def __repr__(self):
+        return f'<Book: {self.title}, Author: {self.author}>'
+
     @validates('publication_year')
     def validate_publication_year(self, key, year):
         current_year = datetime.now().year
@@ -129,7 +132,7 @@ class Book(db.Model, SerializerMixin):
 
 class Library(db.Model, SerializerMixin):
     __tablename__ = 'libraries'
-    serialize_rules = ('-user.libraries', '-books.libraries',)
+    serialize_rules = ('-user.libraries', '-books.libraries', '-user', '-books')
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
@@ -143,11 +146,13 @@ class Library(db.Model, SerializerMixin):
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
+    serialize_rules = ('-user.libraries', '-book')
 
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
-    mood = db.Column(db.String, nullable=False)
-    pace = db.Column(db.String, nullable=False)
+    mood = db.Column(db.String(50), nullable=False)
+    pace = db.Column(db.String(50), nullable=False)
+    comment = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(tz=timezone.utc), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
@@ -157,3 +162,23 @@ class Review(db.Model, SerializerMixin):
 
     # Relationship mapping the review to related book
     book = db.relationship('Book', back_populates='reviews')
+
+    @validates('rating')
+    def validate_rating(self, key, rating):
+        if not (1 <= rating <= 5):
+            raise ValueError("Rating must be between 1 and 5.")
+        return rating
+    
+    @validates('user_id')
+    def validate_user_id(self, key, user_id):
+        user = User.query.filter_by(id=user_id).first()
+        if not user:
+            raise ValueError("Invalid user.")
+        return user_id
+    
+    @validates('book_id')
+    def validate_book_id(self, key, book_id):
+        book = Book.query.filter_by(id=book_id).first()
+        if not book:
+            raise ValueError("Invalid book.")
+        return book_id

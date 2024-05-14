@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Segment, Image, Button, Modal, Loader, Header, Grid, GridColumn, GridRow } from "semantic-ui-react";
+import { Segment, Image, Button, Modal, Loader, Header, Grid, GridColumn, GridRow, Divider } from "semantic-ui-react";
 import AddBookToLibraryForm from "./AddBookToLibraryForm";
 import UpdateBookForm from "./UpdateBookForm";
 import DeleteBookForm from "./DeleteBookForm";
+import CreateReviewForm from "./CreateReviewForm";
+import ReviewList from "./ReviewList";
 
-function BookInfo({ id }){
+function BookInfo({ id, user }){
     const [book, setBook] = useState(null)
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
@@ -68,8 +70,10 @@ function BookInfo({ id }){
                         <p>{book.summary}</p>
                     </GridColumn>
                 </GridRow>
-                <GridRow>
-                    <Header as='h1'>Reviews</Header>
+                <GridRow columns={1}>
+                    <GridColumn>
+                        <ReviewList bookID={id} user={user}/>
+                    </GridColumn>
                 </GridRow>
             </Grid>
         </Segment>

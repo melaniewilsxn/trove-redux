@@ -5,12 +5,9 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api
-from models import User, Genre, Book, Library, library_book
+from models import User, Genre, Book, Library, Review
 
 # Views go here!
-# @app.before_request
-# def before_request():
-#     session.modified = True
 
 class Signup(Resource):
     
@@ -93,7 +90,7 @@ class BooksByGenre(Resource):
     def get(self, name):
         genre = Genre.query.filter_by(name=name).first()
         if genre:
-            books = [book.to_dict() for book in Book.query.filter_by(genre_id = genre.id).all()]
+            books = [book.to_dict() for book in genre.books]
             return books, 200
         return {'error': 'Genre not found'}, 404
 
@@ -179,11 +176,11 @@ class LibraryIndex(Resource):
         return libraries, 200
 
     def post(self):
-        request_json = request.get_json()
-
-        name = request_json.get('libraryName')
-
         try:
+            request_json = request.get_json()
+
+            name = request_json.get('libraryName')
+
             library = Library(
                 name=name,
                 user_id=session['user_id']
@@ -252,6 +249,72 @@ class LibraryByID(Resource):
 
         return {}, 204
 
+class ReviewsByBook(Resource):
+    def get(self, id):
+        book = Book.query.filter_by(id=id).first()
+        if book:
+            reviews = [review.to_dict() for review in book.reviews]
+            return reviews, 200
+        return {'error': 'Book not found'}, 404
+
+    def post(self, id):
+        try:
+            request_json = request.get_json()
+
+            rating = request_json.get('rating')
+            mood = request_json.get('mood')
+            pace = request_json.get('pace')
+            comment = request_json.get('comment')
+
+            review = Review(
+                rating=rating,
+                mood=mood,
+                pace=pace,
+                comment=comment,
+                user_id=session['user_id'],
+                book_id=id
+            )
+
+            db.session.add(review)
+            db.session.commit()
+
+            return review.to_dict(), 201
+        
+        except ValueError as e:
+            db.session.rollback()
+            return {'error': str(e)}, 400
+        except Exception as e:
+            db.session.rollback()
+            return {'error': 'Internal server error'}, 500
+
+class ReviewByID(Resource):
+    def get(self, id):
+        review = Review.query.filter_by(id=id).first()
+        if review:
+            return review.to_dict(), 200
+        return {'error': 'Review not found'}, 404
+
+    def patch(self, id):
+        data = request.get_json()
+
+        review = Review.query.filter_by(id=id).first()
+
+        for attr in data:
+            setattr(review, attr, data[attr])
+
+        db.session.add(review)
+        db.session.commit()
+
+        return review.to_dict(), 200
+
+    def delete(self, id):
+        review = Review.query.filter_by(id=id).first()
+
+        db.session.delete(review)
+        db.session.commit()
+
+        return {}, 204
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
@@ -263,6 +326,8 @@ api.add_resource(BookByID, '/books/<int:id>', endpoint='book_by_id')
 api.add_resource(LibraryIndex, '/libraries', endpoint='libraries')
 api.add_resource(AddBookToLibrary, '/add_book_to_library', endpoint='add_book_to_library')
 api.add_resource(LibraryByID, '/library/<int:id>', endpoint='library_by_id')
+api.add_resource(ReviewsByBook, '/book/reviews/<int:id>', endpoint='reviews_by_book')
+api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='review_by_id')
 
 
 if __name__ == '__main__':

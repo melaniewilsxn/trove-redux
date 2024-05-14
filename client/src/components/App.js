@@ -59,7 +59,7 @@ function App() {
                 <Route exact path="/discover" component={Discover} />
                 <Route exact path="/library" component={Libraries} />
                 <Route exact path="/discover/:genreName" component={DiscoverGenre} />
-                <Route exact path="/books/:bookID" component={Book} />
+                <Route exact path="/books/:bookID" render={(props) => <Book {...props} user={user} />} />
                 <Route exact path="/library/:libraryID" component={Library} />
               </Switch>
             </Segment>

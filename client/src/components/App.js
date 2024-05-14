@@ -9,6 +9,8 @@ import Libraries from "../pages/Libraries";
 import DiscoverGenre from "../pages/DiscoverGenre";
 import Book from "../pages/Book";
 import Library from "../pages/Library";
+import About from "../pages/About";
+import Books from "../pages/Books";
 
 function App() {
 
@@ -56,8 +58,10 @@ function App() {
             <Segment inverted >
               <Switch>
                 <Route exact path="/" component={Home} />
+                <Route exact path="/books" component={Books} />
                 <Route exact path="/discover" component={Discover} />
                 <Route exact path="/library" component={Libraries} />
+                <Route exact path="/about" component={About} />
                 <Route exact path="/discover/:genreName" component={DiscoverGenre} />
                 <Route exact path="/books/:bookID" render={(props) => <Book {...props} user={user} />} />
                 <Route exact path="/library/:libraryID" component={Library} />

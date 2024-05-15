@@ -18,7 +18,7 @@ function CreateBookForm({ bookList, setBookList, setOpen, genreName}){
             setGenreList(genres.map((genre) => ({
                     key: genre.id, 
                     text: genre.name, 
-                    value: genre.id,
+                    value: genre.name,
                 })
             ))
         })

@@ -11,7 +11,7 @@ function DeleteBookForm({ book, setOpenDelete }){
             method: "DELETE",
         }).then((r) => {
             if (r.ok) {
-                history.push('/discover')
+                history.push('/books')
                 alert("Book successfully deleted!")
                 setOpenDelete(false)
             } else {

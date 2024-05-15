@@ -57,7 +57,7 @@ function App() {
             </Segment>
             <Segment inverted >
               <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" render={(props) => <Home {...props} user={user} />}/>
                 <Route exact path="/books" component={Books} />
                 <Route exact path="/discover" component={Discover} />
                 <Route exact path="/library" component={Libraries} />

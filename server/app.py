@@ -217,6 +217,31 @@ class AddBookToLibrary(Resource):
             db.session.rollback()
             return {'error': 'Internal server error'}, 500
 
+class DeleteBookFromLibrary(Resource):
+    def delete(self, library_id, book_id):
+        try:
+            library = library = Library.query.filter_by(id=library_id).first()
+            book = Book.query.filter_by(id=book_id).first()
+
+            if book in library.books:
+                library.books.remove(book)
+                db.session.commit()
+                return {}, 204
+            else:
+                return {'error': 'Book not found in the specified library'}, 404
+
+        except Exception as e:
+            db.session.rollback()
+            return {'error': 'Internal server error'}, 500
+
+class LibrariesByBookID(Resource):
+    def get(self, id):
+        book = Book.query.filter_by(id=id).first()
+        if book:
+            libraries = [library.to_dict() for library in book.libraries]
+            return libraries, 200
+        return {'error': 'Book not found'}, 404
+
 class LibraryByID(Resource):
     def get(self, id):
         library = Library.query.filter_by(id=id).first()
@@ -249,7 +274,7 @@ class LibraryByID(Resource):
 
         return {}, 204
 
-class ReviewsByBook(Resource):
+class ReviewsByBookID(Resource):
     def get(self, id):
         book = Book.query.filter_by(id=id).first()
         if book:
@@ -325,8 +350,10 @@ api.add_resource(BookIndex, '/books', endpoint='books')
 api.add_resource(BookByID, '/books/<int:id>', endpoint='book_by_id')
 api.add_resource(LibraryIndex, '/libraries', endpoint='libraries')
 api.add_resource(AddBookToLibrary, '/add_book_to_library', endpoint='add_book_to_library')
+api.add_resource(DeleteBookFromLibrary, '/delete_book_from_library/library/<int:library_id>/book/<int:book_id>', endpoint='delete_book_from_library')
+api.add_resource(LibrariesByBookID, '/book/libraries/<int:id>', endpoint='libraries_by_book_id')
 api.add_resource(LibraryByID, '/library/<int:id>', endpoint='library_by_id')
-api.add_resource(ReviewsByBook, '/book/reviews/<int:id>', endpoint='reviews_by_book')
+api.add_resource(ReviewsByBookID, '/book/reviews/<int:id>', endpoint='reviews_by_book_id')
 api.add_resource(ReviewByID, '/reviews/<int:id>', endpoint='review_by_id')
 
 

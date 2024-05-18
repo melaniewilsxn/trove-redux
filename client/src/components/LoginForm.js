@@ -1,55 +1,88 @@
-import React, { useState } from 'react'
-import { Button, Form, Grid, Header, Image, Segment, GridColumn } from 'semantic-ui-react'
+import React from 'react';
+import { Button, Form, Grid, Header, Image, Segment, GridColumn } from 'semantic-ui-react';
+import { useHistory } from "react-router-dom";
+import { Formik, useFormik } from 'formik';
+import * as Yup from 'yup';
 
-function LoginForm({ setShowLogin, onLogin }){
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState();
-    
-    function handleSubmit(e) {
-        e.preventDefault();
-        fetch("/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username: username, password: password, }),
-        }).then((r) => {
-          if (r.ok) {
-            r.json().then((user) => onLogin(user));
-          } else {
-            r.json().then((err) => setError(err.error));
-          }
-        });
-      }
+function LoginForm({ setShowLogin, onLogin }) {
+    const history = useHistory();
+
+    const loginSchema = Yup.object().shape({
+        username: Yup.string().required('Username is required'),
+        password: Yup.string().required('Password is required'),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            username: "",
+            password: "",
+        },
+        validationSchema: loginSchema,
+        onSubmit: (values) => {
+            fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            }).then((r) => {
+                if (r.ok) {
+                    r.json().then((user) => {
+                        onLogin(user);
+                        history.push('/');
+                    });
+                } else {
+                    r.json().then((err) => {
+                        formik.setFieldError('general', err.error);
+                    });
+                }
+                formik.setSubmitting(false);
+            });
+        }
+    });
 
     return (
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
             <GridColumn style={{ maxWidth: 450 }}>
                 <Segment inverted>
-                  <Image src='http://localhost:3000/trove.png' size="massive"/>
-                  <Header as="h2" textAlign='center'> 
-                      Log-in to your account
-                  </Header>
+                    <Image src='http://localhost:3000/trove.png' size="massive" />
+                    <Header as="h2" textAlign='center'>
+                        Log-in to your account
+                    </Header>
                 </Segment>
-                <Form size='large' onSubmit={handleSubmit} >
+                <Form size='large' onSubmit={formik.handleSubmit}>
                     <Segment stacked inverted>
-                        <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' onChange={(e) => setUsername(e.target.value)}/>
+                        <Form.Input
+                            fluid
+                            icon='user'
+                            iconPosition='left'
+                            placeholder='Username'
+                            name="username"
+                            onChange={formik.handleChange}
+                            value={formik.values.username}
+                        />
+                        {formik.errors.username && (
+                            <p style={{ color: "red" }}>{formik.errors.username}</p>
+                        )}
                         <Form.Input
                             fluid
                             icon='lock'
                             iconPosition='left'
                             placeholder='Password'
                             type='password'
-                            onChange={(e) => setPassword(e.target.value)}
+                            name="password"
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
                         />
-
-                        <Button fluid size='large' type="submit">
+                        {formik.errors.password && (
+                            <p style={{ color: "red" }}>{formik.errors.password}</p>
+                        )}
+                        <Button fluid size='large' type="submit" disabled={formik.isSubmitting}>
                             Login
                         </Button>
-                        {error ? 
-                          <div style={{ color: '#cc0000', marginTop: '10px'}}>{error}</div>
-                        : null}
+                        {formik.errors.general && (
+                            <div style={{ color: '#cc0000', marginTop: '10px' }}>{formik.errors.general}</div>
+                        )}
                     </Segment>
                 </Form>
                 <Segment inverted>
@@ -57,7 +90,7 @@ function LoginForm({ setShowLogin, onLogin }){
                 </Segment>
             </GridColumn>
         </Grid>
-    )
+    );
 }
 
-export default LoginForm
+export default LoginForm;

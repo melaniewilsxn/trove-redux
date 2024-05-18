@@ -1,67 +1,67 @@
-import React, { useState, useEffect } from 'react'
-import { Segment, Header, Form, Button, FormSelect } from 'semantic-ui-react'
+import React, { useState, useEffect } from 'react';
+import { Segment, Header, Form, Button, Select } from 'semantic-ui-react';
+import { useFormik } from 'formik';
 
-function AddBookToLibraryForm({ bookID, setOpen }){
+function AddBookToLibraryForm({ bookID, setOpen }) {
     const [libraryList, setLibraryList] = useState([]);
-    const [selectedLibraryID, setSelectedLibraryID] = useState(null);
-    const [error, setError] = useState([])
+    const [error, setError] = useState('');
 
     useEffect(() => {
         fetch("/libraries")
-        .then((r) => r.json())
-        .then(libraries => setLibraryList(libraries));
+            .then((r) => r.json())
+            .then(libraries => setLibraryList(libraries));
     }, []);
 
-    function handleChange(e, { value }){
-        setSelectedLibraryID(value)
-    }
+    const formik = useFormik({
+        initialValues: {
+            selectedLibraryID: '',
+        },
+        onSubmit: (values) => {
+            fetch("/add_book_to_library", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    library_id: values.selectedLibraryID,
+                    book_id: bookID,
+                }),
+            }).then((r) => {
+                if (r.ok) {
+                    console.log("Success!");
+                    setOpen(false);
+                } else {
+                    r.json().then((err) => setError(err.error));
+                }
+            });
+        }
+    });
 
-    function handleSubmit(e){
-        e.preventDefault()
-        fetch("/add_book_to_library", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                library_id: selectedLibraryID,
-                book_id: bookID,
-            }),
-        }).then((r) => {
-            if (r.ok) {
-                r.json().then(console.log("Success!"))
-                setOpen(false)
-            } else {
-                r.json().then((err) => setError(err.error))
-            }
-        })
-    }
-    
     const options = libraryList.map((library) => ({ 
         key: library.id, 
         text: library.name, 
         value: library.id 
-    }))
+    }));
 
     return (
         <Segment textAlign='center'>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={formik.handleSubmit}>
                 <Header>Add to library</Header>
-                <FormSelect
+                <Select
                     fluid
-                    selection
                     options={options}
                     placeholder='Select a Library'
-                    onChange={handleChange}
-                    value={selectedLibraryID}
+                    name='selectedLibraryID'
+                    onChange={(e, { value }) => formik.setFieldValue('selectedLibraryID', value)}
+                    value={formik.values.selectedLibraryID}
                 />
                 <Button type="submit">Done</Button>
             </Form>
-            {error ? 
-            <div style={{ color: '#cc0000', marginTop: '10px'}}>{error}</div>
-            : null}
+            {error && 
+                <div style={{ color: '#cc0000', marginTop: '10px'}}>{error}</div>
+            }
         </Segment>
-    )
+    );
 }
 
-export default AddBookToLibraryForm
+export default AddBookToLibraryForm;

@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Genre, Book
+from models import db, User, Genre, Book, Library, Review
 
 books_list = [
     {
@@ -75,6 +75,22 @@ books_list = [
         "cover_image_url": "https://ia802607.us.archive.org/view_archive.php?archive=/31/items/l_covers_0010/l_covers_0010_20.zip&file=0010201235-L.jpg",
         "genre": "Horror"
     },
+    {
+        "title": "A Court of Silver Flames",
+        "author": "Sarah J. Maas",
+        "publication_year": 2021,
+        "summary": "Sarah J. Maas's sexy, richly imagined Court of Thorns and Roses series continues with the journey of Feyre's fiery sister, Nesta. \nNesta Archeron has always been prickly – proud, swift to anger and slow to forgive. And since the war – since being made High Fae against her will – she's struggled to forget the horrors she endured and find a place for herself within the strange and deadly Night Court. \nThe person who ignites her temper more than any other is Cassian, the battle-scarred, winged warrior who is there at Nesta's every turn. But her temper isn't the only thing Cassian ignites. And when they are forced to train in battle together, sparks become flame. \nAs the threat of war casts its shadow over them once again, Nesta and Cassian must fight monsters from within and without if they are to stand a chance of halting the enemies of their court. But the ultimate risk will be searching for acceptance – and healing – in each other's arms.",
+        "cover_image_url": "https://ia601909.us.archive.org/view_archive.php?archive=/31/items/l_covers_0013/l_covers_0013_31.zip&file=0013316179-L.jpg",
+        "genre": "Fantasy"
+    },
+    {
+        "title": "All Good People Here",
+        "author": "Ashley Flowers",
+        "publication_year": 2022,
+        "summary": "Everyone from Wakarusa, Indiana, remembers the case of January Jacobs, who was found dead in a ditch hours after her family awoke to find her gone. Margot Davies was six at the time, the same age as January—and they were next-door neighbors. In the twenty years since, Margot has grown up, moved away, and become a big-city journalist, but she’s always been haunted by the fear that it could’ve been her. And the worst part is, January’s killer has never been brought to justice. \nWhen Margot returns home to help care for her sick uncle, it feels like walking into a time capsule. Wakarusa is exactly how she remembered: genial, stifled, secretive. Then news breaks about five-year-old Natalie Clark from the next town over, who’s gone missing under eerily similar circumstances. With all the old feelings rushing back, Margot vows to find Natalie and solve January’s murder once and for all. \nBut the police, the family, the townspeople—they all seem to be hiding something. And the deeper Margot digs into Natalie’s disappearance, the more resistance she encounters, and the colder January’s case feels. Could the killer still be out there? Could it be the same person who kidnapped Natalie? And what will it cost to finally discover what truly happened that night?",
+        "cover_image_url": "https://ia804703.us.archive.org/view_archive.php?archive=/9/items/l_covers_0012/l_covers_0012_57.zip&file=0012573463-L.jpg",
+        "genre": "Mystery"
+    },
     # Add more books as needed
 ]
 
@@ -102,6 +118,8 @@ if __name__ == '__main__':
         User.query.delete()
         Genre.query.delete()
         Book.query.delete()
+        Library.query.delete()
+        Review.query.delete()
 
         # make sure users have unique usernames
         users = []
@@ -124,21 +142,23 @@ if __name__ == '__main__':
             user.password = user.username + 'Password' + '123'
 
             users.append(user)
+        users.append(User(username = "melaniewilsxn", first_name = "Melanie", last_name = "Wilson", email = "melaniemwilson1@gmail.com", password = "MelanieWilsxn29!"))
 
         db.session.add_all(users)
         db.session.commit()
+        print("Users have been added to the database.")
 
         genres_list = [
             "Mystery", "Fantasy", "Thriller", "Horror", "Historical Fiction",
             "Romance", "Science Fiction", "Dystopian", "Adventure",
-            "Young Adult (YA)", "Children's", "Biography/ Autobiography", "Memoir",
+            "Young Adult (YA)", "Children's", "Biography", "Memoir",
             "Self-help", "Motivational", "Health & Wellness", "History", "True Crime",
             "Science", "Philosophy", "Travel", "Cookbooks/Food", "Art & Photography",
             "Personal Development", "Business & Finance", "Education", "Graphic Novels & Comics",
             "Poetry", "Essays", "Anthologies", "Religious/Spiritual", "LGBTQ+",
             "Cultural", "Political", "Crafts, Hobbies & Home", "Parenting & Relationships",
             "Climate Fiction (Cli-Fi)", "Urban Fantasy", "Cyberpunk", "Magical Realism",
-            "New Adult (NA)", "Steampunk", "Dark Fantasy", "Paranormal"
+            "New Adult (NA)", "Steampunk", "Dark Fantasy", "Paranormal", "Music"
         ]
 
         for genre_name in genres_list:
@@ -148,6 +168,22 @@ if __name__ == '__main__':
                 db.session.add(genre)
 
         db.session.commit()
+        print("Genres have been added to the database.")
 
         add_books(books_list)
         print("Books have been added to the database.")
+
+        reviews = []
+
+        reviews.append(Review(rating = 5, mood = "Cheerful", pace = "Moderate", comment = "Loved it.", user_id = 1, book_id = 1))
+        reviews.append(Review(rating = 5, mood = "Romantic", pace = "Variable", comment = "It's like a better Beauty and the Beast story!", user_id = 2, book_id = 1))
+        reviews.append(Review(rating = 5, mood = "Romantic", pace = "Fast-paced", comment = "Finished it in a day", user_id = 3, book_id = 1))
+        reviews.append(Review(rating = 5, mood = "Suspenseful", pace = "Fast-paced", comment = "My favorite book in the series!", user_id = 4, book_id = 2))
+        reviews.append(Review(rating = 5, mood = "Romantic", pace = "Moderate", comment = "I love Feyre and Rhysand", user_id = 5, book_id = 2))
+        reviews.append(Review(rating = 3, mood = "Dark", pace = "Slow-paced", comment = "Good story but hard to read, Stephen King focuses too much on the details in this one.", user_id = 6, book_id = 6))
+        reviews.append(Review(rating = 1, mood = "Dark", pace = "Variable", comment = "That one scene... iykyk", user_id = 7, book_id = 6))
+        reviews.append(Review(rating = 5, mood = "Dark", pace = "Moderate", comment = "IT is my favorite Stephen King book. Loved the movie, too!", user_id = 8, book_id = 6))
+
+        db.session.add_all(reviews)
+        db.session.commit()
+        print("Reviews have been added to the database.")

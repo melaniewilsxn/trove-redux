@@ -96,7 +96,7 @@ class BooksByGenre(Resource):
 
 class BookIndex(Resource):
     def get(self):
-        books = [book.to_dict() for book in Book.query.all()]
+        books = [book.to_dict() for book in Book.query.order_by(Book.title).all()]
         return books, 200
 
     def post(self):

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from "react";
-import LoginForm from '../components/LoginForm';
-import SignUpForm from '../components/SignUpForm';
+import LoginForm from '../components/UserForms/LoginForm';
+import SignUpForm from '../components/UserForms/SignUpForm';
 import { Container } from 'semantic-ui-react'
 
 function Login({ onLogin }){

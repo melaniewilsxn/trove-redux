@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CardGroup, Button, Modal, Form, Header, Segment, Divider, FormGroup, FormInput, FormTextArea } from "semantic-ui-react";
-import BookCard from "./BookCard";
-import CreateBookForm from "./CreateBookForm";
+import BookCard from "../BookComponents/BookCard";
+import CreateBookForm from "../BookForms/CreateBookForm";
 
 function GenreBookList({ genreName }){
     const [bookList, setBookList] = useState([])

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Comment, CommentAuthor, CommentAvatar, CommentContent, CommentMetadata, CommentText, Rating, Container, CommentActions, CommentAction, Modal } from "semantic-ui-react";
 import { format, parseISO } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
-import DeleteReviewForm from "./DeleteReviewForm";
-import UpdateReviewForm from "./UpdateReviewForm";
+import DeleteReviewForm from "../ReviewForms/DeleteReviewForm";
+import UpdateReviewForm from "../ReviewForms/UpdateReviewForm";
 
 function ReviewComment({ user, review, handleDeletedReview, handleUpdatedReview }){
     const [openDelete, setOpenDelete] = useState(false)

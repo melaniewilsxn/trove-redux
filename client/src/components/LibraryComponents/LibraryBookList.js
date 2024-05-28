@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CardGroup } from "semantic-ui-react";
-import BookCard from "./BookCard";
+import BookCard from "../BookComponents/BookCard";
 
 function LibraryBookList({ library }){
     const bookList = library.books

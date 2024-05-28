@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import GenreBookList from '../components/GenreBookList';
+import GenreBookList from '../components/GenreComponents/GenreBookList';
 
 function DiscoverGenre(){
     const { genreName } = useParams();

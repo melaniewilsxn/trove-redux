@@ -1,5 +1,5 @@
 import React from 'react'
-import GenreList from '../components/GenreList'
+import GenreList from '../components/GenreComponents/GenreList'
 
 function Discover(){
 

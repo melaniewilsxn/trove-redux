@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Loader, CommentGroup, Modal, Button, Header } from "semantic-ui-react";
 import ReviewComment from "./ReviewComment";
-import CreateReviewForm from "./CreateReviewForm";
+import CreateReviewForm from "../ReviewForms/CreateReviewForm";
 
 function ReviewList({ bookID, user }){
     const [reviewList, setReviewList] = useState([]);

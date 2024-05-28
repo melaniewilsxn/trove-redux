@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import LibraryList from '../components/LibraryList';
+import LibraryList from '../components/LibraryComponents/LibraryList';
 
 function Libraries(){
 

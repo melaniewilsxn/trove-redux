@@ -5,7 +5,7 @@ function Libraries(){
 
     return (
         <div>
-            <h1>Your Libraries</h1>
+            <h1 style={{ fontFamily: 'Bagel Fat One', fontSize: '50px' }}>Your Libraries</h1>
             <LibraryList/>
         </div>
     )

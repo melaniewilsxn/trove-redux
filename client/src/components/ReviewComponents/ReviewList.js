@@ -37,7 +37,7 @@ function ReviewList({ bookID, user }){
     return (
         <div>
             <CommentGroup>
-                <Header as='h1'>Reviews</Header>
+                <Header as='h1' style={{ fontFamily: 'Bagel Fat One'}}>Reviews</Header>
                 {reviewList.map((review) => <ReviewComment user={user} review={review} key={review.id} handleDeletedReview={handleDeletedReview} handleUpdatedReview={handleUpdatedReview}/>)}
             </CommentGroup>
             <Modal size="large"

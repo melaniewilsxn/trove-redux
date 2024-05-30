@@ -13,8 +13,8 @@ function BookCard({book}){
         <Card onClick={handleCLick}>
             <Card.Content>
                 <Image src={book.cover_image_url} style={{ padding: '5px'}}/>
-                <Card.Header>{book.title}</Card.Header>
-                <Card.Meta>{book.author}</Card.Meta>
+                <Card.Header style={{ fontFamily: 'Bagel Fat One'}}>{book.title}</Card.Header>
+                <Card.Meta style={{ fontFamily: 'Bagel Fat One'}}>{book.author}</Card.Meta>
             </Card.Content>
         </Card>
     )

@@ -28,7 +28,7 @@ function Library(){
 
     return (
         <div>
-            <h1>{library.name}</h1>
+            <h1 style={{ fontFamily: 'Bagel Fat One', fontSize: '50px' }}>{library.name}</h1>
             <Modal size="mini"
                 onClose={() => setOpenEdit(false)}
                 onOpen={() => setOpenEdit(true)}

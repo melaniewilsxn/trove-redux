@@ -4,7 +4,7 @@ import BookList from "../components/BookComponents/BookList";
 function Books({}){
     return(
         <div>
-            <h1>All Books</h1>
+            <h1 style={{ fontFamily: 'Bagel Fat One', fontSize: '50px' }}>All Books</h1>
             <BookList />
         </div>
     )

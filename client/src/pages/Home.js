@@ -4,7 +4,7 @@ import { Container, Header, Divider, Segment, Grid, GridColumn, Button } from 's
 function Home({ user }){
     return (
         <Container text>
-            <Header as='h1' textAlign='center' style={{color: 'white'}}>Welcome back to Trove, {user.first_name}!</Header>
+            <Header as='h1' textAlign='center' style={{color: 'white', fontFamily: 'Bagel Fat One', fontSize: '50px'}} >Welcome back to Trove, {user.first_name}!</Header>
             <Divider />
             <Segment padded='very'>
                 <Grid columns={3} relaxed>
@@ -20,7 +20,7 @@ function Home({ user }){
                 </Grid>
             </Segment>
             <Divider />
-            <Header as='h2' textAlign='center' style={{color: 'white'}}>Explore, Read, and Enjoy!</Header>
+            <Header as='h2' textAlign='center' style={{color: 'white', fontFamily: 'Bagel Fat One', fontSize: '25px'}}>Explore, Read, and Enjoy!</Header>
             <Divider hidden />
             <Segment textAlign='center'>
                 This is a simple book management system where you can manage and review your favorite books.

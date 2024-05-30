@@ -81,7 +81,7 @@ function BookInfo({ id, user }){
                         </Container>
                     </GridColumn>
                     <GridColumn>
-                        <Header as='h1'>
+                        <Header as='h1' style={{ fontFamily: 'Bagel Fat One' }}>
                             {book.title}
                             <Header.Subheader>{book.author} | {book.publication_year} | {book.genre.name}</Header.Subheader>
                         </Header>

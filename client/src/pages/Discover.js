@@ -5,7 +5,7 @@ function Discover(){
 
     return (
         <div>
-            <h1>Browse Books</h1>
+            <h1 style={{ fontFamily: 'Bagel Fat One', fontSize: '50px'}}>Browse Books</h1>
             <GenreList />
         </div>
     )

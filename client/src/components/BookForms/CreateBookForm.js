@@ -35,6 +35,8 @@ function CreateBookForm({ bookList, setBookList, setOpen, genreName }){
             coverImageURL: ''
         },
         validationSchema: createBookScehma,
+        validateOnBlur: false,
+        validateOnChange: false,
         onSubmit: (values) => {
             fetch("/books", {
                 method: "POST",
@@ -65,12 +67,24 @@ function CreateBookForm({ bookList, setBookList, setOpen, genreName }){
                         placeholder='Title' 
                         width={6} 
                         {...formik.getFieldProps('title')}
+                        error={
+                            formik.submitCount > 0 && formik.errors.title ? {
+                                content: formik.errors.title,
+                                pointing: 'below',
+                            } : null
+                        }
                     />
                     <FormInput 
                         fluid label='Author' 
                         placeholder='Author' 
                         width={5} 
                         {...formik.getFieldProps('author')}
+                        error={
+                            formik.submitCount > 0 && formik.errors.author ? {
+                                content: formik.errors.author,
+                                pointing: 'below',
+                            } : null
+                        }
                     />
                     <FormInput 
                         fluid label='Publication Year' 
@@ -78,6 +92,12 @@ function CreateBookForm({ bookList, setBookList, setOpen, genreName }){
                         width={2} 
                         {...formik.getFieldProps('publicationYear')}
                         onChange={(e) => formik.setFieldValue('publicationYear', parseInt(e.target.value))}
+                        error={
+                            formik.submitCount > 0 && formik.errors.publicationYear ? {
+                                content: formik.errors.publicationYear,
+                                pointing: 'below',
+                            } : null
+                        }
                     />
                     {genreName ?
                         <FormInput fluid label='Genre' value={formik.values.genre} readOnly={true} width={3}/>
@@ -89,6 +109,12 @@ function CreateBookForm({ bookList, setBookList, setOpen, genreName }){
                             width={3}
                             {...formik.getFieldProps('genre')}
                             onChange={(e, { value }) => formik.setFieldValue('genre', value)}
+                            error={
+                                formik.submitCount > 0 && formik.errors.genre ? {
+                                    content: formik.errors.genre,
+                                    pointing: 'below',
+                                } : null
+                            }
                         />
                     }
                 </FormGroup>
@@ -101,6 +127,12 @@ function CreateBookForm({ bookList, setBookList, setOpen, genreName }){
                     fluid label='Cover Image URL' 
                     placeholder='Cover Image URL' 
                     {...formik.getFieldProps('coverImageURL')}
+                    error={
+                        formik.submitCount > 0 && formik.errors.coverImageURL ? {
+                            content: formik.errors.coverImageURL,
+                            pointing: 'below',
+                        } : null
+                    }
                 />
                 <Button type="submit">Create</Button>
             </Form>

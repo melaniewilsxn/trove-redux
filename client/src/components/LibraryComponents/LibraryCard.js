@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Card } from 'semantic-ui-react'
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import React from "react";
+import { Card } from 'semantic-ui-react';
+import { useNavigate } from "react-router-dom";
 
 function LibraryCard({ library }){
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const colors = [
         '#55A891',
@@ -32,7 +32,7 @@ function LibraryCard({ library }){
     }
 
     function handleClick() {
-        history.push(`/library/${encodeURIComponent(library.id)}`)
+        navigate(`/library/${encodeURIComponent(library.id)}`)
     }
 
     return(

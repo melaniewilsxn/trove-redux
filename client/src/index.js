@@ -1,14 +1,15 @@
 import React from "react";
+import ReactDOM from "react-dom/client";
 import App from "./components/App";
 import "./index.css";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router } from "react-router-dom/cjs/react-router-dom.min";
+import { BrowserRouter as Router } from "react-router-dom";
 import 'semantic-ui-css/semantic.min.css';
 
 const container = document.getElementById("root");
-const root = createRoot(container);
+const root = ReactDOM.createRoot(container);
+
 root.render(
-    <Router >
+    <Router>
         <App />
     </Router>
 );

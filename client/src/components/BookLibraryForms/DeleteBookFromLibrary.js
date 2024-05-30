@@ -48,6 +48,7 @@ function DeleteBookFromLibrary({ bookID, setOpenRemove }) {
                     name="selectedLibraryID"
                     onChange={(e, { value }) => formik.setFieldValue('selectedLibraryID', value)}
                     value={formik.values.selectedLibraryID}
+                    style={{ marginBottom: '10px' }}
                 />
                 <Button type="submit">Done</Button>
             </Form>

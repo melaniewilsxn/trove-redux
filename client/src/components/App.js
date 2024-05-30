@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { GridColumn, GridRow, Grid, Segment, Image, Button, SegmentGroup, Container } from 'semantic-ui-react'
-import { Route, Switch } from 'react-router-dom'
+import { GridColumn, Grid, Segment, Image, Button, SegmentGroup } from 'semantic-ui-react';
+import { Routes, Route } from 'react-router-dom';
 import NavBar from "./NavBar";
 import Login from "../pages/Login";
 import Discover from "../pages/Discover";
@@ -44,7 +44,7 @@ function App() {
       <Grid >
         <GridColumn width={4} >
           <Segment inverted style={{ height: '100%' }}>
-            <Image src="http://localhost:3000/trove.png" size="small" />
+            <Image src="http://localhost:3000/trove.png" size="large" />
             <NavBar />
           </Segment>
         </GridColumn>
@@ -56,16 +56,16 @@ function App() {
               <Button onClick={handleLogout} >Logout</Button>
             </Segment>
             <Segment inverted >
-              <Switch>
-                <Route exact path="/" render={(props) => <Home {...props} user={user} />}/>
-                <Route exact path="/books" component={Books} />
-                <Route exact path="/discover" component={Discover} />
-                <Route exact path="/library" component={Libraries} />
-                <Route exact path="/about" component={About} />
-                <Route exact path="/discover/:genreName" component={DiscoverGenre} />
-                <Route exact path="/books/:bookID" render={(props) => <Book {...props} user={user} />} />
-                <Route exact path="/library/:libraryID" component={Library} />
-              </Switch>
+            <Routes>
+              <Route path="/" element={<Home user={user} />} />
+              <Route path="/books" element={<Books />} />
+              <Route path="/discover" element={<Discover />} />
+              <Route path="/library" element={<Libraries />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/discover/:genreName" element={<DiscoverGenre />} />
+              <Route path="/books/:bookID" element={<Book user={user} />} />
+              <Route path="/library/:libraryID" element={<Library />} />
+            </Routes>
             </Segment>
           </SegmentGroup>
         </GridColumn>

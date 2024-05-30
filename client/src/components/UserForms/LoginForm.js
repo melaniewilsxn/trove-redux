@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, Form, Grid, Header, Image, Segment, GridColumn } from 'semantic-ui-react';
-import { useHistory } from "react-router-dom";
-import { Formik, useFormik } from 'formik';
+import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 function LoginForm({ setShowLogin, onLogin }) {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const loginSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
@@ -18,6 +18,8 @@ function LoginForm({ setShowLogin, onLogin }) {
             password: "",
         },
         validationSchema: loginSchema,
+        validateOnBlur: false,
+        validateOnChange: false,
         onSubmit: (values) => {
             fetch("/login", {
                 method: "POST",
@@ -29,7 +31,7 @@ function LoginForm({ setShowLogin, onLogin }) {
                 if (r.ok) {
                     r.json().then((user) => {
                         onLogin(user);
-                        history.push('/');
+                        navigate('/');
                     });
                 } else {
                     r.json().then((err) => {
@@ -60,10 +62,13 @@ function LoginForm({ setShowLogin, onLogin }) {
                             name="username"
                             onChange={formik.handleChange}
                             value={formik.values.username}
+                            error={
+                                formik.submitCount > 0 && formik.errors.username ? {
+                                    content: formik.errors.username,
+                                    pointing: 'below',
+                                } : null
+                            }
                         />
-                        {formik.errors.username && (
-                            <p style={{ color: "red" }}>{formik.errors.username}</p>
-                        )}
                         <Form.Input
                             fluid
                             icon='lock'
@@ -73,15 +78,18 @@ function LoginForm({ setShowLogin, onLogin }) {
                             name="password"
                             onChange={formik.handleChange}
                             value={formik.values.password}
+                            error={
+                                formik.submitCount > 0 && formik.errors.password ? {
+                                    content: formik.errors.password,
+                                    pointing: 'below',
+                                } : null
+                            }
                         />
-                        {formik.errors.password && (
-                            <p style={{ color: "red" }}>{formik.errors.password}</p>
-                        )}
                         <Button fluid size='large' type="submit" disabled={formik.isSubmitting}>
                             Login
                         </Button>
                         {formik.errors.general && (
-                            <div style={{ color: '#cc0000', marginTop: '10px' }}>{formik.errors.general}</div>
+                            <div style={{ color: 'red', marginTop: '10px' }}>{formik.errors.general}</div>
                         )}
                     </Segment>
                 </Form>

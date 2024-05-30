@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Card } from 'semantic-ui-react'
-import GenreBookList from "./GenreBookList";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Card } from 'semantic-ui-react';
+import { useNavigate } from "react-router-dom";
 
 function GenreCard({ genre }){
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const colors = [
         '#55A891',
@@ -33,7 +32,7 @@ function GenreCard({ genre }){
     };
 
     function handleClick() {
-        history.push(`/discover/${encodeURIComponent(genre.name)}`)
+        navigate(`/discover/${encodeURIComponent(genre.name)}`)
     }
 
     return(

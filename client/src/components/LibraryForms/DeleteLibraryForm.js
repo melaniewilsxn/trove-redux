@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Segment, Header, Button } from "semantic-ui-react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 
 function DeleteLibraryForm({ setOpenDelete, libraryID }){
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const [error, setError] = useState(null)
 
@@ -12,7 +12,7 @@ function DeleteLibraryForm({ setOpenDelete, libraryID }){
             method: "DELETE",
         }).then((r) => {
             if (r.ok) {
-                history.push('/library')
+                navigate('/library')
                 alert("Library successfully deleted!")
                 setOpenDelete(false)
             } else {

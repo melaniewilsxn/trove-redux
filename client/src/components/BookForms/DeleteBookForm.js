@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 import { Segment, Header, Button } from "semantic-ui-react";
 
 function DeleteBookForm({ book, setOpenDelete }){
-    const history = useHistory()
+    const navigate = useNavigate()
     const [error, setError] = useState(null)
 
     function handleDeleteClick(){
@@ -11,7 +11,7 @@ function DeleteBookForm({ book, setOpenDelete }){
             method: "DELETE",
         }).then((r) => {
             if (r.ok) {
-                history.push('/books')
+                navigate('/books')
                 alert("Book successfully deleted!")
                 setOpenDelete(false)
             } else {

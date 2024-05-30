@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, Image } from "semantic-ui-react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 
 function BookCard({book}){
-    const history = useHistory()
+    const navigate = useNavigate()
 
     function handleCLick() {
-        history.push(`/books/${encodeURIComponent(book.id)}`)
+        navigate(`/books/${encodeURIComponent(book.id)}`)
     }
 
     return (

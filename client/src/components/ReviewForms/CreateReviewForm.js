@@ -20,6 +20,8 @@ function CreateReviewForm({ bookID, setOpenReview, reviewList, setReviewList }) 
             comment: ''
         },
         validationSchema: createReviewSchema,
+        validateOnBlur: false,
+        validateOnChange: false,
         onSubmit: (values, { setErrors }) => {
             fetch(`/book/reviews/${bookID}`, {
                 method: "POST",
@@ -77,6 +79,12 @@ function CreateReviewForm({ bookID, setOpenReview, reviewList, setReviewList }) 
                         name="rating"
                         onChange={(e, { value }) => formik.setFieldValue('rating', value)}
                         value={formik.values.rating}
+                        error={
+                            formik.submitCount > 0 && formik.errors.rating ? {
+                                content: formik.errors.rating,
+                                pointing: 'below',
+                            } : null
+                        }
                     />
                     <FormSelect 
                         fluid label='Mood' 
@@ -86,6 +94,12 @@ function CreateReviewForm({ bookID, setOpenReview, reviewList, setReviewList }) 
                         name="mood"
                         onChange={(e, { value }) => formik.setFieldValue('mood', value)}
                         value={formik.values.mood}
+                        error={
+                            formik.submitCount > 0 && formik.errors.mood ? {
+                                content: formik.errors.mood,
+                                pointing: 'below',
+                            } : null
+                        }
                     />
                     <FormSelect 
                         fluid label='Pace' 
@@ -95,6 +109,12 @@ function CreateReviewForm({ bookID, setOpenReview, reviewList, setReviewList }) 
                         name="pace"
                         onChange={(e, { value }) => formik.setFieldValue('pace', value)}
                         value={formik.values.pace}
+                        error={
+                            formik.submitCount > 0 && formik.errors.pace ? {
+                                content: formik.errors.pace,
+                                pointing: 'below',
+                            } : null
+                        }
                     />
                 </FormGroup>
                 <FormTextArea 

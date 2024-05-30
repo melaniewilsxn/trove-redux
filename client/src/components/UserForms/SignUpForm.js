@@ -26,6 +26,8 @@ function SignUpForm({ setShowLogin, onLogin }){
             password: ''
         },
         validationSchema: signUpSchema,
+        validateOnBlur: false,
+        validateOnChange: false,
         onSubmit: (values) => {
             fetch("/signup", {
                 method: "POST",
@@ -59,44 +61,64 @@ function SignUpForm({ setShowLogin, onLogin }){
                         <Form.Input fluid icon='chevron right' iconPosition='left' placeholder='First Name' 
                             name='firstName' 
                             onChange={formik.handleChange}
-                            value={formik.values.firstName}/>
-                          {formik.errors.firstName && (
-                            <p style={{ color: "red" }}>{formik.errors.firstName}</p>
-                          )}
+                            value={formik.values.firstName}
+                            error={
+                              formik.submitCount > 0 && formik.errors.firstName ? {
+                                  content: formik.errors.firstName,
+                                  pointing: 'below',
+                              } : null
+                            }
+                            />
                         <Form.Input fluid icon='chevron right' iconPosition='left' placeholder='Last Name'
                             name='lastName'
                             onChange={formik.handleChange}
-                            value={formik.values.lastName}/>
-                          {formik.errors.lastName && (
-                            <p style={{ color: "red" }}>{formik.errors.lastName}</p>
-                          )}
+                            value={formik.values.lastName}
+                            error={
+                              formik.submitCount > 0 && formik.errors.lastName ? {
+                                  content: formik.errors.lastName,
+                                  pointing: 'below',
+                              } : null
+                            }
+                            />
                         <Form.Input fluid icon='mail' iconPosition='left' placeholder='Email'
                             name='email'
                             onChange={formik.handleChange}
-                            value={formik.values.email}/>
-                          {formik.errors.email && (
-                            <p style={{ color: "red" }}>{formik.errors.email}</p>
-                          )}
+                            value={formik.values.email}
+                            error={
+                              formik.submitCount > 0 && formik.errors.email ? {
+                                  content: formik.errors.email,
+                                  pointing: 'below',
+                              } : null
+                            }
+                            />
                         <Form.Input fluid icon='user' iconPosition='left' placeholder='Username'
                             name='username'
                             onChange={formik.handleChange}
-                            value={formik.values.username}/>
-                          {formik.errors.username && (
-                            <p style={{ color: "red" }}>{formik.errors.username}</p>
-                          )}
+                            value={formik.values.username}
+                            error={
+                              formik.submitCount > 0 && formik.errors.username ? {
+                                  content: formik.errors.username,
+                                  pointing: 'below',
+                              } : null
+                            }
+                            />
                         <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password'
                             name='password'
                             type='password'
                             onChange={formik.handleChange}
-                            value={formik.values.password}/>
-                          {formik.errors.password && (
-                            <p style={{ color: "red" }}>{formik.errors.password}</p>
-                          )}
+                            value={formik.values.password}
+                            error={
+                              formik.submitCount > 0 && formik.errors.password ? {
+                                  content: formik.errors.password,
+                                  pointing: 'below',
+                              } : null
+                            }
+                            />
                         <Button fluid size='large' type="submit">
                             Create Account
                         </Button>
                         {formik.errors.general && (
-                            <div style={{ color: '#cc0000', marginTop: '10px' }}>{formik.errors.general}</div>
+                            <div style={{ color: 'red', marginTop: '10px' }}>{formik.errors.general}</div>
                         )}
                     </Segment>
                 </Form>

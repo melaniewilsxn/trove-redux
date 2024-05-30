@@ -1,5 +1,5 @@
-import React from 'react'
-import { Container, Header, Divider, Segment, Grid, GridColumn, Button } from 'semantic-ui-react'
+import React from 'react';
+import { Container, Header, Divider, Segment, Grid, GridColumn, Button } from 'semantic-ui-react';
 
 function Home({ user }){
     return (

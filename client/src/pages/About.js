@@ -1,5 +1,5 @@
-import React from 'react'
-import { Container, Segment, Header } from 'semantic-ui-react'
+import React from 'react';
+import { Container, Segment, Header } from 'semantic-ui-react';
 
 function About(){
     return (

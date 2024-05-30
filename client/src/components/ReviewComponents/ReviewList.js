@@ -15,7 +15,7 @@ function ReviewList({ bookID, user }){
             setReviewList(reviews)
             setLoading(false)
         })
-    }, [])
+    }, [bookID])
 
     function handleDeletedReview(reviewID){
         setReviewList(reviews => reviews.filter(review => review.id !== reviewID))

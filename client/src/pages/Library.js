@@ -20,7 +20,7 @@ function Library(){
             setLibrary(library)
             setLoading(false)
         })
-    }, [])
+    }, [libraryID])
 
     if (loading) {
         return <Loader active inline='centered' />; // Show a loader while data is loading

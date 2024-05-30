@@ -123,7 +123,7 @@ function SignUpForm({ setShowLogin, onLogin }){
                     </Segment>
                 </Form>
                 <Segment inverted>
-                    Already have an account? <a href='#' onClick={() => setShowLogin(true)}>Login</a>
+                    Already have an account? <span onClick={() => setShowLogin(true)} style={{color: '#2185d0', cursor: 'pointer'}}>Login</span>
                 </Segment>
             </GridColumn>
         </Grid>

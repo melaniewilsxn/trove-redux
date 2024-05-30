@@ -3,7 +3,7 @@ import { CardGroup, Modal, Button, Divider } from "semantic-ui-react";
 import BookCard from "./BookCard";
 import CreateBookForm from "../BookForms/CreateBookForm";
 
-function BookList({}){
+function BookList(){
     const [bookList, setBookList] = useState([])
     const [open, setOpen] = useState(false)
 

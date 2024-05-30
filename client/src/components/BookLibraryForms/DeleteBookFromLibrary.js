@@ -10,7 +10,7 @@ function DeleteBookFromLibrary({ bookID, setOpenRemove }) {
         fetch(`/book/libraries/${bookID}`)
             .then((r) => r.json())
             .then(libraries => setLibraryList(libraries));
-    }, []);
+    }, [bookID]);
 
     const formik = useFormik({
         initialValues: {

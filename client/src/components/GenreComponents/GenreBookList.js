@@ -11,7 +11,7 @@ function GenreBookList({ genreName }){
         fetch(`/genres/${genreName}`)
         .then(r => r.json())
         .then(books => setBookList(books))
-    }, [])
+    }, [genreName])
 
     return (
         <div>

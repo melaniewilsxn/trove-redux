@@ -94,7 +94,7 @@ function LoginForm({ setShowLogin, onLogin }) {
                     </Segment>
                 </Form>
                 <Segment inverted>
-                    New to us? <a href='#' onClick={() => setShowLogin(false)}>Sign Up</a>
+                    New to us? <span onClick={() => setShowLogin(false)} style={{color: '#2185d0', cursor: 'pointer'}}>Sign Up</span>
                 </Segment>
             </GridColumn>
         </Grid>

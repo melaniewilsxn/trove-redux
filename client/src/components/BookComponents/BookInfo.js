@@ -21,7 +21,7 @@ function BookInfo({ id, user }){
             setBook(book)
             setLoading(false)
         })
-    }, [])
+    }, [id])
 
     if (loading) {
         return <Loader active inline='centered' />; // Show a loader while data is loading

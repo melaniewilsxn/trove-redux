@@ -1,4 +1,6 @@
 # Standard library imports
+from os import environ, path
+from dotenv import load_dotenv
 
 # Remote library imports
 from flask import Flask
@@ -8,15 +10,16 @@ from flask_bcrypt import Bcrypt
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-from datetime import timedelta
 
 # Local imports
+basedir = path.abspath(path.dirname(__file__))
+load_dotenv(path.join(basedir, '.env'))
 
 # Instantiate app, set attributes
 app = Flask(__name__)
-app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = environ.get('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
 app.json.compact = False
 
 # Define metadata, instantiate db

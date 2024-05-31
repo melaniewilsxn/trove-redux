@@ -7,7 +7,7 @@ function DiscoverGenre(){
 
     return (
         <div>
-            <h1>{decodeURIComponent(genreName)}</h1>
+            <h1 style={{ fontFamily: 'Bagel Fat One', fontSize: '50px'}}>{decodeURIComponent(genreName)}</h1>
             <GenreBookList genreName={genreName}/>
         </div>
     )

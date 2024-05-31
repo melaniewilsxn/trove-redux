@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GridColumn, Grid, Segment, Image, Button, SegmentGroup } from 'semantic-ui-react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import NavBar from "./NavBar";
 import Login from "../pages/Login";
 import Discover from "../pages/Discover";
@@ -11,8 +11,11 @@ import Book from "../pages/Book";
 import Library from "../pages/Library";
 import About from "../pages/About";
 import Books from "../pages/Books";
+import Account from "../pages/Account";
 
 function App() {
+
+  const navigate = useNavigate()
 
   const [user, setUser] = useState(null);
 
@@ -51,8 +54,8 @@ function App() {
         <GridColumn stretched width={12} >
           <SegmentGroup style={{ height: '100%' }}>
             <Segment textAlign="right" inverted>
-              <Image src="/profile.png" avatar />
-              <span style={{ padding: '8px' }}>{user.first_name}</span>
+                <Image src="/profile.png" avatar />
+                <span style={{ paddingRight: '5px', cursor: 'pointer'}} onClick={() => navigate(`/account`)}>{user.first_name}</span>
               <Button onClick={handleLogout} >Logout</Button>
             </Segment>
             <Segment inverted >
@@ -65,6 +68,7 @@ function App() {
               <Route path="/discover/:genreName" element={<DiscoverGenre />} />
               <Route path="/books/:bookID" element={<Book user={user} />} />
               <Route path="/library/:libraryID" element={<Library />} />
+              <Route path="/account" element={<Account user={user}/>} />
             </Routes>
             </Segment>
           </SegmentGroup>

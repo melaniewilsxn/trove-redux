@@ -1,7 +1,9 @@
 import React from 'react';
 import { Container, Header, Divider, Segment, Grid, GridColumn, Button } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
 
 function Home({ user }){
+    const navigate = useNavigate()
     return (
         <Container text>
             <Header as='h1' textAlign='center' style={{color: 'white', fontFamily: 'Bagel Fat One', fontSize: '50px'}} >Welcome back to Trove, {user.first_name}!</Header>
@@ -9,13 +11,13 @@ function Home({ user }){
             <Segment padded='very'>
                 <Grid columns={3} relaxed>
                     <GridColumn>
-                        <Button fluid href="/books">Browse Books</Button>
+                        <Button fluid onClick={() => navigate(`/books`)}>Browse Books</Button>
                     </GridColumn>
                     <GridColumn>
-                        <Button fluid href="/library">Your Library</Button>
+                        <Button fluid onClick={() => navigate(`/library`)}>Your Library</Button>
                     </GridColumn>
                     <GridColumn>
-                        <Button fluid href="/discover">Discover Genres</Button>
+                        <Button fluid onClick={() => navigate(`/discover`)}>Discover Genres</Button>
                     </GridColumn>
                 </Grid>
             </Segment>

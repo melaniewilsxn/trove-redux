@@ -1,9 +1,12 @@
 import React from 'react';
 import { Container, Header, Divider, Segment, Grid, GridColumn, Button } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-function Home({ user }){
+function Home(){
     const navigate = useNavigate()
+    const user = useSelector((state) => state.user.user);
+
     return (
         <Container text>
             <Header as='h1' textAlign='center' style={{color: 'white', fontFamily: 'Bagel Fat One', fontSize: '50px'}} >Welcome back to Trove, {user.first_name}!</Header>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { GridColumn, Grid, Segment, Image, Button, SegmentGroup } from 'semantic-ui-react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import NavBar from "./NavBar";
@@ -12,35 +12,29 @@ import Library from "../pages/Library";
 import About from "../pages/About";
 import Books from "../pages/Books";
 import Account from "../pages/Account";
+import { useDispatch, useSelector } from "react-redux";
+import { checkSession, logoutUser, setUser } from "../store/slices/userSlice";
 
 function App() {
 
   const navigate = useNavigate()
-
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user.user)
 
   useEffect(() => {
-    // auto-login
-    fetch("/check_session").then((r) => {
-      if (r.ok) {
-        r.json().then((user) => setUser(user));
-      }
-    });
-  }, []);
+    dispatch(checkSession());
+  }, [dispatch]);
 
   const handleLogout = () => {
-    fetch("/logout", {
-      method: "DELETE",
-    })
-    .then((response) => {
-      if (response.ok) {
-        setUser(null); // Successfully logged out, clear user state
-      }
-    })
-    .catch((error) => console.error("Logout failed:", error));
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+        navigate('/login');
+      })
+      .catch((error) => console.error("Logout failed:", error));
   };
 
-  if (!user) return <Login onLogin={setUser} />;
+  if (!user) return <Login onLogin={(user) => dispatch(setUser(user))} />;
 
   return (
     <div style={{ padding: '10px'}}>
@@ -60,15 +54,15 @@ function App() {
             </Segment>
             <Segment inverted >
             <Routes>
-              <Route path="/" element={<Home user={user} />} />
+              <Route path="/" element={<Home />} />
               <Route path="/books" element={<Books />} />
               <Route path="/discover" element={<Discover />} />
               <Route path="/library" element={<Libraries />} />
               <Route path="/about" element={<About />} />
               <Route path="/discover/:genreName" element={<DiscoverGenre />} />
-              <Route path="/books/:bookID" element={<Book user={user} />} />
+              <Route path="/books/:bookID" element={<Book />} />
               <Route path="/library/:libraryID" element={<Library />} />
-              <Route path="/account" element={<Account user={user}/>} />
+              <Route path="/account" element={<Account />} />
             </Routes>
             </Segment>
           </SegmentGroup>

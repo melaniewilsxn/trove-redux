@@ -6,7 +6,7 @@ import DeleteBookForm from "../BookForms/DeleteBookForm";
 import ReviewList from "../ReviewComponents/ReviewList";
 import DeleteBookFromLibrary from "../BookLibraryForms/DeleteBookFromLibrary";
 
-function BookInfo({ id, user }){
+function BookInfo({ id }){
     const [book, setBook] = useState(null)
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
@@ -90,7 +90,7 @@ function BookInfo({ id, user }){
                 </GridRow>
                 <GridRow columns={1}>
                     <GridColumn>
-                        <ReviewList bookID={id} user={user}/>
+                        <ReviewList bookID={id} />
                     </GridColumn>
                 </GridRow>
             </Grid>

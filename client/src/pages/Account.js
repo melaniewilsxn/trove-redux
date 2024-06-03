@@ -1,7 +1,9 @@
 import React from "react";
 import { Container, Segment, Header } from 'semantic-ui-react';
+import { useSelector } from "react-redux";
 
-function Account({ user }){
+function Account(){
+    const user = useSelector((state) => state.user.user);
     return(
         <Container text>
         <Header as='h1' textAlign='center' style={{color: 'white', fontFamily: 'Bagel Fat One', fontSize: '50px'}}>Account</Header>

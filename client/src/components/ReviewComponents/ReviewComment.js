@@ -4,10 +4,12 @@ import { parseISO } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import DeleteReviewForm from "../ReviewForms/DeleteReviewForm";
 import UpdateReviewForm from "../ReviewForms/UpdateReviewForm";
+import { useSelector } from "react-redux";
 
-function ReviewComment({ user, review, handleDeletedReview, handleUpdatedReview }){
+function ReviewComment({ review, handleDeletedReview, handleUpdatedReview }){
     const [openDelete, setOpenDelete] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
+    const user = useSelector((state) => state.user.user);
 
     function formatDate(dateString){
         const timeZone = 'America/New_York';

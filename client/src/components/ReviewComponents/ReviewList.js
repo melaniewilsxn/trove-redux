@@ -3,7 +3,7 @@ import { Loader, CommentGroup, Modal, Button, Header } from "semantic-ui-react";
 import ReviewComment from "./ReviewComment";
 import CreateReviewForm from "../ReviewForms/CreateReviewForm";
 
-function ReviewList({ bookID, user }){
+function ReviewList({ bookID }){
     const [reviewList, setReviewList] = useState([]);
     const [loading, setLoading] = useState(true)
     const [openReview, setOpenReview] = useState(false)
@@ -38,7 +38,7 @@ function ReviewList({ bookID, user }){
         <div>
             <CommentGroup>
                 <Header as='h1' style={{ fontFamily: 'Bagel Fat One'}}>Reviews</Header>
-                {reviewList.map((review) => <ReviewComment user={user} review={review} key={review.id} handleDeletedReview={handleDeletedReview} handleUpdatedReview={handleUpdatedReview}/>)}
+                {reviewList.map((review) => <ReviewComment review={review} key={review.id} handleDeletedReview={handleDeletedReview} handleUpdatedReview={handleUpdatedReview}/>)}
             </CommentGroup>
             <Modal size="large"
             onClose={() => setOpenReview(false)}

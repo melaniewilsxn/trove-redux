@@ -21,7 +21,7 @@ function ReviewComment({ review, handleDeletedReview, handleUpdatedReview }){
 
     return(
         <Comment>
-            <CommentAvatar src="http://localhost:3000/profile.png"/>
+            <CommentAvatar src="/profile.png"/>
             <CommentContent>
                 <CommentAuthor>{review.user.username}</CommentAuthor>
                 <CommentMetadata>
